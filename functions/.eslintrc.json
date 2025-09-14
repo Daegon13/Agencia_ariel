@@ -1,0 +1,7 @@
+{
+  "root": true,
+  "extends": ["google"],
+  "parserOptions": { "ecmaVersion": 2022, "sourceType": "module" },
+  "env": { "node": true, "es2022": true },
+  "rules": { "quotes": ["error","double"], "max-len": ["warn", { "code": 110 }] }
+}

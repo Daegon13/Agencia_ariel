@@ -1,0 +1,14 @@
+// firestore.rules
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /leads/{docId} {
+      allow read: if false;
+      allow create: if request.time < timestamp.date(2100,1,1)
+        && request.resource.size < 10240
+        && request.resource.data.form in ['cotizar','consultaSalida']
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+  }
+}
