@@ -1,0 +1,84 @@
+<!doctype html><html lang="es"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contacto – Agencia Ariel</title>
+  <meta name="description" content="Teléfono, WhatsApp, dirección y formulario de cotización.">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#0f172a">
+</head><body><a class="skip-link" href="#contenido">Saltar al contenido</a>  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">AA</span> Agencia Ariel</a>
+      <nav id="nav" class="nav" aria-label="Principal">
+        <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="menuList">
+          <span class="sr-only">Abrir menú</span>☰
+        </button>
+        <ul id="menuList" class="menu">
+          <li><a  href="/servicios/">Servicios</a></li>
+          <li><a  href="/infraestructura.html">Infraestructura</a></li>
+          <li><a  href="/cobertura.html">Cobertura</a></li>
+          <li><a  href="/nosotros.html">Nosotros</a></li>
+          <li><a style="text-decoration:underline" href="/contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="header-ctas">
+        <a class="btn btn-light" href="tel:+59823073050">Llamar</a>
+        <a class="btn btn-primary" id="ctaWhatsAppHeader">WhatsApp</a>
+      </div>
+    </div>
+  </header>
+<main id="contenido">
+<section class="section"><div class="container">
+  <h1>Contacto</h1>
+  <div class="grid two">
+    <div class="card">
+      <p><strong>Dirección:</strong> Emancipación 5440 – Montevideo</p>
+      <p><strong>Tel:</strong> <a href="tel:+59823073050">2307 3050</a></p>
+      <p><strong>WhatsApp:</strong> <a id="ctaWhatsAppContacto">093 943 838</a></p>
+      <p><strong>Horario:</strong> Lunes a viernes de 8:30 a 17:30</p>
+      <div class="map-embed" aria-label="Mapa de ubicación">
+        <iframe title="Mapa Agencia Ariel" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Emancipaci%C3%B3n%205440%20Montevideo&output=embed"></iframe>
+      </div>
+    </div>
+    <form id="cotizar" class="card form">
+      <h3>Solicitar presupuesto</h3>
+      <label>Nombre / Empresa<input type="text" name="nombre" required></label>
+      <label>Email<input type="email" name="email" required></label>
+      <label>Teléfono / WhatsApp<input type="tel" name="telefono" required></label>
+      <div class="grid two">
+        <label>Origen<input type="text" name="origen" placeholder="Ciudad" required></label>
+        <label>Destino<input type="text" name="destino" placeholder="Ciudad" required></label>
+      </div>
+      <label>Tipo de envío<select name="tipo" required><option value="">Seleccionar…</option><option>Paquete</option><option>Paletizado</option><option>Voluminoso</option></select></label>
+      <label>Dimensiones / Peso aprox.<input type="text" name="medidas" placeholder="Ej.: 60x40x40 cm, 20 kg"></label>
+      <label>Servicio<select name="servicio" required><option value="">Seleccionar…</option><option>Solo envío</option><option>Envío + Almacenaje</option><option>Embalaje y Distribución</option></select></label>
+      <label>Urgencia<select name="urgencia"><option>Estándar</option><option>Prioritario</option></select></label>
+      <label>Mensaje<textarea name="mensaje" rows="4" placeholder="Contanos detalles relevantes"></textarea></label>
+      <label class="check"><input type="checkbox" name="whatsapp_ok" checked> Deseo ser contactado por WhatsApp</label>
+      <button class="btn btn-primary" type="submit">Enviar solicitud</button>
+      <p class="form-note">Responderemos dentro del horario comercial.</p>
+      <p class="form-success" hidden>¡Gracias! Te escribimos a la brevedad.</p>
+    </form>
+  </div>
+</div></section>
+</main>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© Agencia Ariel • 2025-09-13</p>
+      <nav aria-label="Legal">
+        <a href="/contacto.html">Contacto</a>
+        <a href="/servicios/">Servicios</a>
+      </nav>
+    </div>
+  </footer>
+  <div class="action-bar">
+    <a class="action" href="tel:+59823073050">Llamar</a>
+    <a class="action" id="ctaWhatsAppBar">WhatsApp</a>
+    <a class="action" href="/contacto.html#cotizar">Cotizar</a>
+  </div>
+  <script src="/app.js" defer></script>
+  <script type="module" src="/firebase-init.js"></script>
+  <script type="module" src="/leads.js"></script>
+
+</body></html>
