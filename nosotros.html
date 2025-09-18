@@ -1,42 +1,84 @@
-<!doctype html><html lang="es"><head>
+<!doctype html>
+<html lang="es">
+<head>
+  <!-- Metadatos básicos -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nosotros – Agencia Ariel</title>
   <meta name="description" content="Historia, valores y equipo de Agencia Ariel.">
+  
+  <!-- Enlace a los estilos -->
   <link rel="stylesheet" href="/styles.css">
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#0f172a">
-</head><body><a class="skip-link" href="#contenido">Saltar al contenido</a>  <header class="site-header">
+</head>
+<body>
+  <!-- Enlace para saltar al contenido principal -->
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <!-- Encabezado del sitio -->
+  <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="/"><span class="brand-logo" aria-hidden="true">AA</span> Agencia Ariel</a>
+      <!-- Logo y marca -->
+      <a class="brand" href="/">
+        <span class="brand-logo" aria-hidden="true">AA</span> Agencia Ariel
+      </a>
+      
+      <!-- Navegación principal -->
       <nav id="nav" class="nav" aria-label="Principal">
         <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="menuList">
           <span class="sr-only">Abrir menú</span>☰
         </button>
         <ul id="menuList" class="menu">
-          <li><a  href="/servicios/">Servicios</a></li>
-          <li><a  href="/infraestructura.html">Infraestructura</a></li>
-          <li><a  href="/cobertura.html">Cobertura</a></li>
+          <li><a href="/servicios/">Servicios</a></li>
+          <li><a href="/infraestructura.html">Infraestructura</a></li>
+          <li><a href="/cobertura.html">Cobertura</a></li>
           <li><a style="text-decoration:underline" href="/nosotros.html">Nosotros</a></li>
-          <li><a  href="/contacto.html">Contacto</a></li>
+          <li><a href="/contacto.html">Contacto</a></li>
         </ul>
       </nav>
+
+      <!-- Botones de llamada a la acción -->
       <div class="header-ctas">
         <a class="btn btn-light" href="tel:+59823073050">Llamar</a>
         <a class="btn btn-primary" id="ctaWhatsAppHeader">WhatsApp</a>
       </div>
     </div>
   </header>
-<main id="contenido">
-<section class="section section-alt"><div class="container">
-  <h1>Nosotros</h1><p class="section-lead">Somos Agencia Ariel: cercanía, seguridad y puntualidad para tu mercadería.</p>
-  <div class="grid cards">
-    <article class="card"><h3>Nuestro propósito</h3><p>Dar soluciones logísticas simples y confiables, con trato directo y respuesta rápida.</p></article>
-    <article class="card"><h3>Valores</h3><p>Seguridad, puntualidad, transparencia y comunicación clara.</p></article>
-    <article class="card"><h3>Equipo</h3><p>Personal capacitado para carga/descarga, almacenaje y coordinación de envíos.</p></article>
-  </div>
-</div></section>
-</main>
+
+  <!-- Contenido principal -->
+  <main id="contenido">
+    <!-- Sección de nosotros -->
+    <section class="section section-alt">
+      <div class="container">
+        <h1>Nosotros</h1>
+        <p class="section-lead">Somos Agencia Ariel: cercanía, seguridad y puntualidad para tu mercadería.</p>
+        
+        <!-- Contenedor de tarjetas -->
+        <div class="grid cards">
+          <!-- Propósito -->
+          <article class="card">
+            <h3>Nuestro propósito</h3>
+            <p>Dar soluciones logísticas simples y confiables, con trato directo y respuesta rápida.</p>
+          </article>
+          
+          <!-- Valores -->
+          <article class="card">
+            <h3>Valores</h3>
+            <p>Seguridad, puntualidad, transparencia y comunicación clara.</p>
+          </article>
+          
+          <!-- Equipo -->
+          <article class="card">
+            <h3>Equipo</h3>
+            <p>Personal capacitado para carga/descarga, almacenaje y coordinación de envíos.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página -->
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>© Agencia Ariel • 2025-09-13</p>
@@ -46,13 +88,17 @@
       </nav>
     </div>
   </footer>
+
+  <!-- Barra de acciones móviles -->
   <div class="action-bar">
     <a class="action" href="tel:+59823073050">Llamar</a>
     <a class="action" id="ctaWhatsAppBar">WhatsApp</a>
     <a class="action" href="/contacto.html#cotizar">Cotizar</a>
   </div>
+
+  <!-- Scripts -->
   <script src="/app.js" defer></script>
   <script type="module" src="/firebase-init.js"></script>
   <script type="module" src="/leads.js"></script>
-
-</body></html>
+</body>
+</html>

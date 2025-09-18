@@ -51,7 +51,7 @@ a:hover {
   margin: 0 0 10px;
 }
 .section h1 {
-  font-size: 10rem !important; /* Cambiado el tamaño de la fuente del título principal */
+  font-size: 3rem !important; /* Cambiado el tamaño de la fuente del título principal */
 }
 .section-lead {
   color: var(--muted);
@@ -74,12 +74,12 @@ a:hover {
   justify-content: space-between;
   min-height: 64px;
 }
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  color: #fff;
+.brand img{
+  height: 6rem;        /* tamaño del logo */
+  width: 6rem;         /* mismo ancho y alto para que quede circular */
+  object-fit: cover;   /* recorta la imagen sin deformarla */
+  border-radius: 50%;  /* hace el círculo */
+  display: block;
 }
 .brand-logo {
   display: grid;
