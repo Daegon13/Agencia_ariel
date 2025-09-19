@@ -293,6 +293,7 @@ a:hover {
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   padding: 10px 12px;
   justify-content: center;
+  margin-bottom: 5%; /* Ajusta el porcentaje según lo que necesites */
 }
 .action {
   display: inline-block;
@@ -310,6 +311,7 @@ a:hover {
   padding: 40px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   background: #0b1020;
+  margin-top: 5%; /* Ajusta el porcentaje según lo que necesites */
 }
 .footer-inner {
   display: flex;
