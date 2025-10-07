@@ -45,42 +45,53 @@
       </div>
     </div>
   </header>
+ <!-- ================== BUSCADOR ================== -->
+  <section class="buscador">
+    <input type="text" id="searchInput" placeholder="Buscar destino...">
+    <ul id="searchResults"></ul>
+  </section>
 
-  <!-- Contenido principal -->
-  <main id="contenido">
-    <!-- Sección de cobertura y tiempos -->
-    <section class="section section-alt">
-      <div class="container">
-        <h1>Cobertura y Tiempos</h1>
-        <p class="section-lead">Envíos a todo el interior. Consultá la próxima salida a tu ciudad.</p>
-        
-        <!-- Contenedor dividido en dos columnas -->
-        <div class="grid two">
-          <!-- Lista de zonas de cobertura -->
-          <div>
-            <ul class="chips">
-              <li>Norte: Artigas, Rivera, Tacuarembó, Salto, Paysandú</li>
-              <li>Este: Maldonado, Rocha, Treinta y Tres, Lavalleja</li>
-              <li>Litoral: Colonia, Soriano, Río Negro</li>
-              <li>Centro: Florida, Durazno, Flores, San José, Canelones</li>
-            </ul>
-          </div>
+  <!-- ================== MAPA ================== -->
+<!-- ================== MAPA ================== -->
+<section class="mapa">
+  <h2>Mapa de Cobertura</h2>
+  <object id="mapaUruguay" data="img/uruguay.svg" type="image/svg+xml"></object>
+  <p>Pasa el mouse sobre un departamento o haz clic para ver destinos.</p>
+</section>
 
-          <!-- Formulario para consultar próxima salida -->
-          <form id="consultaSalida" class="card form">
-            <h3>Consultar próxima salida</h3>
-            <label>Ciudad
-              <input type="text" name="ciudad" placeholder="Ej.: Paysandú" required>
-            </label>
-            <label>Teléfono / WhatsApp
-              <input type="tel" name="telefono" required>
-            </label>
-            <button class="btn btn-primary" type="submit">Consultar</button>
-            <p class="form-note">Respondemos Lun–Vie 8:30–17:30</p>
-          </form>
-        </div>
+  <!-- ================== MENÚ DESPLEGABLE ================== -->
+  <section class="menu-destinos">
+    <h2>Destinos por Departamento</h2>
+    <div class="accordion">
+
+      <!-- Rocha -->
+      <button class="accordion-btn">Rocha</button>
+      <div class="panel">
+        <ul>
+          <li>Rocha</li>
+          <li>Punta del Diablo</li>
+          <li>Castillos</li>
+          <li>Chuy</li>
+          <li>Barra de Valizas</li>
+          <li>Cabo Polonio</li>
+          <li>Aguas Dulces</li>
+          <li>La Coronilla</li>
+        </ul>
       </div>
-    </section>
+
+      <!-- Maldonado -->
+      <button class="accordion-btn">Maldonado</button>
+      <div class="panel">
+        <ul>
+          <li>Maldonado</li>
+          <li>Aiguá</li>
+        </ul>
+      </div>
+
+      <!-- Aquí seguir agregando más departamentos -->
+    </div>
+  </section>
+
   </main>
 
   <!-- Pie de página -->

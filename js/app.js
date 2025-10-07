@@ -33,3 +33,85 @@
     });
   });
 })();
+
+/*
+Archivo: app.js
+Descripción: Lógica para el buscador de destinos y menú desplegable.
+Autor: Agencia Ariel
+*/
+
+// ====== LISTA DE DESTINOS ======
+const destinos = [
+  "Rocha","Punta del Diablo","Castillos","Chuy","Barra de Valizas",
+  "Cabo Polonio","Aguas Dulces","La Coronilla",
+  "Maldonado","Aiguá",
+  "Paysandú","Carmelo","Colonia","Rosario","Tarariras","Nueva Palmira",
+  "San José","Libertad",
+  "Florida","Casupá","Fray Marcos",
+  "Canelones","Progreso","Sauce","Las Piedras","Santa Lucía","Santa Rosa","Tala",
+  "Durazno","Trinidad","Salto",
+  "Treinta y Tres","Santa Clara del Olimar","Cerro Chato",
+  "Artigas","Minas","Solís de Mataojo"
+  // Agregar todos los demás aquí
+];
+
+// ====== BUSCADOR ======
+const searchInput = document.getElementById("searchInput");
+const searchResults = document.getElementById("searchResults");
+
+searchInput.addEventListener("input", function() {
+  const query = this.value.toLowerCase();
+  searchResults.innerHTML = "";
+
+  if (query.length > 1) {
+    const filtered = destinos.filter(dest => dest.toLowerCase().includes(query));
+    filtered.forEach(dest => {
+      const li = document.createElement("li");
+      li.textContent = dest;
+      searchResults.appendChild(li);
+    });
+  }
+});
+
+// ====== ACCORDION ======
+const accBtns = document.querySelectorAll(".accordion-btn");
+
+accBtns.forEach(btn => {
+  btn.addEventListener("click", function() {
+    this.classList.toggle("active");
+    const panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  });
+});
+
+/*
+Archivo: app.js
+Descripción: Lógica para buscador, menú y mapa SVG interactivo.
+*/
+
+// ===== MAPA SVG INTERACTIVO =====
+document.addEventListener("DOMContentLoaded", () => {
+  const mapa = document.getElementById("mapaUruguay");
+
+  mapa.addEventListener("load", () => {
+    const svgDoc = mapa.contentDocument;
+
+    // Lista de departamentos en el SVG
+    const departamentos = ["Rocha", "Maldonado", "Canelones"];
+
+    departamentos.forEach(dep => {
+      const depto = svgDoc.getElementById(dep);
+      if (depto) {
+        depto.addEventListener("click", () => {
+          alert("Destinos en " + dep); 
+          // Aquí en lugar de alert podríamos mostrar un modal con la lista de destinos
+        });
+      }
+    });
+  });
+});
+

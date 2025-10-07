@@ -383,3 +383,84 @@ a:hover {
     padding: 56px 0;
   }
 }
+
+/*
+Archivo: styles.css
+Descripción: Estilos generales para buscador, mapa y menú desplegable.
+Autor: Agencia Ariel
+*/
+
+/* ===== BUSCADOR ===== */
+.buscador {
+  text-align: center;
+  padding: 1rem;
+}
+
+#searchInput {
+  width: 80%;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+#searchResults {
+  list-style: none;
+  margin-top: 0.5rem;
+  padding: 0;
+}
+
+#searchResults li {
+  background: white;
+  margin: 0.2rem 0;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+/* ===== ACCORDION ===== */
+.accordion {
+  width: 90%;
+  margin: 1rem auto;
+}
+
+.accordion-btn {
+  background: #004080;
+  color: white;
+  cursor: pointer;
+  padding: 1rem;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  transition: 0.3s;
+  font-size: 1rem;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.accordion-btn.active, .accordion-btn:hover {
+  background: #0066cc;
+}
+
+.panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background: white;
+  border-left: 2px solid #004080;
+  border-right: 2px solid #004080;
+  border-bottom: 2px solid #004080;
+  padding-left: 1rem;
+}
+
+/* ===== MAPA SVG ===== */
+.mapa {
+  text-align: center;
+  padding: 1rem;
+}
+
+#mapaUruguay {
+  width: 90%;
+  height: auto;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+}

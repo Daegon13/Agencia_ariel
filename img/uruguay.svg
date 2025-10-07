@@ -1,0 +1,28 @@
+<!--
+Archivo: uruguay.svg
+Descripción: Mapa interactivo de Uruguay con IDs por departamento.
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <style>
+    .depto {
+      fill: #cce5ff;
+      stroke: #004080;
+      stroke-width: 2;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .depto:hover {
+      fill: #66b2ff;
+    }
+  </style>
+
+  <!-- Ejemplo: Rocha -->
+  <path id="Rocha" class="depto" d="M500,900 L600,950 L700,920 L680,800 Z"/>
+  
+  <!-- Ejemplo: Maldonado -->
+  <path id="Maldonado" class="depto" d="M400,850 L500,900 L480,780 L370,790 Z"/>
+  
+  <!-- Ejemplo: Canelones -->
+  <path id="Canelones" class="depto" d="M350,700 L480,780 L370,790 L320,740 Z"/>
+</svg>
