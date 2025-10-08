@@ -464,3 +464,25 @@ Autor: Agencia Ariel
   border: 2px solid #ccc;
   border-radius: 8px;
 }
+
+/* SVG dentro del object */
+#mapaUruguay { width: 100%; max-width: 900px; height: auto; border: 2px solid #ccc; border-radius: 8px; }
+.depto { transition: 0.25s; }
+.depto.hover { filter: brightness(1.06); }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.4);
+  display: grid; place-items: center; z-index: 999;
+}
+.modal-box {
+  background: #fff; padding: 1rem 1.25rem; border-radius: 10px;
+  width: min(92vw, 520px); box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+.modal-box h3 { margin-top: 0; color: #004080; }
+.modal-box ul { margin: .5rem 0 0; padding-left: 1.1rem; }
+.modal-box button {
+  margin-top: 1rem; background: #004080; color: #fff; border: 0;
+  padding: .5rem .9rem; border-radius: 8px; cursor: pointer;
+}
+.modal-box button:hover { background: #0066cc; }
