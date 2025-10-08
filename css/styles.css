@@ -486,3 +486,6 @@ Autor: Agencia Ariel
   padding: .5rem .9rem; border-radius: 8px; cursor: pointer;
 }
 .modal-box button:hover { background: #0066cc; }
+
+/* Opcional: asegura que el <object> sea responsive */
+#mapaUruguay { width: 100%; max-width: 900px; height: auto; }

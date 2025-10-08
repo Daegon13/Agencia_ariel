@@ -167,3 +167,94 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 })();
 
+// === Cobertura: colores y labels (simple y directo sobre el SVG de MapSVG) ===
+// Configuración de colores
+const COLOR_COVER = "#3fc380";   // verde cobertura
+const COLOR_NO_COVER = "#cfcfcf"; // gris sin cobertura
+const COLOR_HOVER = "#5ff0a0";    // verde brillante al hover
+const COLOR_STROKE = "#444";      // borde
+
+// Departamentos con cobertura (según la lista de tu cliente)
+const DEPTOS_COBERTURA = new Set([
+  "Artigas","Canelones","CerroLargo","Colonia","Durazno","Flores","Florida",
+  "Lavalleja","Maldonado","Montevideo","Paysandu","RioNegro","Rivera",
+  "Rocha","Salto","SanJose","Soriano","Tacuarembo","TreintaYTres"
+]);
+
+// Fuente para labels
+const LABEL_FONT_FAMILY = "Arial, sans-serif";
+const LABEL_FONT_SIZE = 11; // ajustable
+
+document.addEventListener("DOMContentLoaded", () => {
+  const obj = document.getElementById("mapaUruguay");
+  if (!obj) return;
+
+  obj.addEventListener("load", () => {
+    const svg = obj.contentDocument;
+    if (!svg) return;
+
+    // 1) Encontramos todos los paths de departamentos (MapSVG suele ponerlos como <path id="Depto" ...>)
+    const deptos = Array.from(svg.querySelectorAll("path[id]"));
+
+    deptos.forEach(path => {
+      const id = path.getAttribute("id"); // ej: "Rocha", "Maldonado", etc. (PascalCase)
+      if (!id) return;
+
+      // Pintar según cobertura
+      const tieneCobertura = DEPTOS_COBERTURA.has(id);
+      path.setAttribute("fill", tieneCobertura ? COLOR_COVER : COLOR_NO_COVER);
+      path.setAttribute("stroke", COLOR_STROKE);
+      path.setAttribute("stroke-width", "1.2");
+      path.style.cursor = "pointer";
+
+      // Tooltip nativo del navegador
+      let title = path.querySelector("title");
+      if (!title) {
+        title = svg.createElementNS("http://www.w3.org/2000/svg", "title");
+        path.appendChild(title);
+      }
+      title.textContent = id; // muestra el nombre
+
+      // Hover (sin romper el color final)
+      path.addEventListener("mouseenter", () => {
+        path.dataset._fill = path.getAttribute("fill");
+        path.setAttribute("fill", COLOR_HOVER);
+      });
+      path.addEventListener("mouseleave", () => {
+        path.setAttribute("fill", path.dataset._fill || (tieneCobertura ? COLOR_COVER : COLOR_NO_COVER));
+      });
+
+      // Click → tu modal existente (si ya lo tenés en app.js)
+      path.addEventListener("click", () => {
+        // Si ya tenés abrirModalDepto(nombre, destinos), usá:
+        if (typeof abrirModalDepto === "function") {
+          abrirModalDepto(id, (window.DESTINOS_POR_DEPTO && window.DESTINOS_POR_DEPTO[id.toLowerCase()]) || []);
+        }
+      });
+
+      // 2) Agregar label visible (centrado aproximado del path)
+      // Calculamos bbox y lo centramos
+      const bbox = path.getBBox();
+      const label = svg.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("x", bbox.x + bbox.width / 2);
+      label.setAttribute("y", bbox.y + bbox.height / 2);
+      label.setAttribute("text-anchor", "middle");
+      label.setAttribute("dominant-baseline", "middle");
+      label.setAttribute("font-family", LABEL_FONT_FAMILY);
+      label.setAttribute("font-size", LABEL_FONT_SIZE);
+      label.setAttribute("fill", "#111"); // negro para buen contraste
+      label.setAttribute("pointer-events", "none");
+      label.textContent = id; // nombre visible
+
+      // Insertamos los labels en una capa superior (o justo después del path)
+      // Mejor en una capa común:
+      let labelsLayer = svg.getElementById("labels-layer");
+      if (!labelsLayer) {
+        labelsLayer = svg.createElementNS("http://www.w3.org/2000/svg", "g");
+        labelsLayer.setAttribute("id", "labels-layer");
+        svg.documentElement.appendChild(labelsLayer);
+      }
+      labelsLayer.appendChild(label);
+    });
+  });
+});
