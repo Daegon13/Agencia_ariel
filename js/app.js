@@ -363,3 +363,198 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })();
 // ========== /COBERTURA ==========
+/**
+ * cobertura-map.js — versión completa (100%) con todos los destinos provistos
+ * Requiere en la página:
+ *   <div id="uy-map-container"><div id="uy-map"></div></div>
+ * SVG esperado: img/Uruguay.svg con IDs ISO-3166-2 por depto (p. ej., UY-RO)
+ */
+(function(){
+  // Nombres por código ISO (deben coincidir con los ids del SVG)
+  const DEPT_NAMES = {
+    "UY-AR":"Artigas",
+    "UY-CA":"Canelones",
+    "UY-CL":"Cerro Largo",
+    "UY-CO":"Colonia",
+    "UY-DU":"Durazno",
+    "UY-FD":"Florida",
+    "UY-FS":"Flores",
+    "UY-LA":"Lavalleja",
+    "UY-MA":"Maldonado",
+    "UY-MO":"Montevideo",
+    "UY-PA":"Paysandú",
+    "UY-RN":"Río Negro",
+    "UY-RO":"Rocha",
+    "UY-RV":"Rivera",
+    "UY-SA":"Salto",
+    "UY-SJ":"San José",
+    "UY-SO":"Soriano",
+    "UY-TA":"Tacuarembó",
+    "UY-TT":"Treinta y Tres"
+  };
+
+  // Mapeo completo (según la lista de destinos que compartiste)
+  const DESTINOS_BY_DEPT = {
+    "UY-AR": [ "Artigas" ],
+
+    "UY-CA": [
+      "Canelones","Costa de Oro","Progreso","Sauce","Los Cerrillos","San Bautista",
+      "San Antonio","San Ramón","Las Piedras","Santa Lucía","Santa Rosa","Tala","Montes"
+    ],
+
+    "UY-CL": [ "Melo","Río Branco","Tupambaé" ],
+
+    "UY-CO": [ "Colonia","Carmelo","Rosario","Tarariras","Nueva Palmira" ],
+
+    "UY-DU": [ "Durazno","Sarandí del Yí","Cerro Chato" ],
+
+    "UY-FD": [ "Florida","Sarandí Grande","Casupá","Fray Marcos","Cerro Colorado","Cerro Chato" ],
+
+    "UY-FS": [ "Trinidad" ],
+
+    "UY-LA": [ "Minas","Mariscala","José Pedro Varela","Solís de Mataojo","Batlle y Ordóñez" ],
+
+    "UY-MA": [ "Maldonado","Aiguá" ],
+
+    "UY-MO": [ /* sin destinos provistos → sin cobertura */ ],
+
+    "UY-PA": [ "Paysandú" ],
+
+    "UY-RN": [ /* sin destinos provistos → sin cobertura */ ],
+
+    "UY-RO": [
+      "Rocha","Punta del Diablo","Castillos","Chuy","Barra de Valizas","Aguas Dulces",
+      "Cabo Polonio","La Coronilla"
+    ],
+
+    "UY-RV": [ /* sin destinos provistos → sin cobertura */ ],
+
+    "UY-SA": [ "Salto" ],
+
+    "UY-SJ": [ "San José","Libertad","Villa Rodríguez" ],
+
+    "UY-SO": [ "Cardona","José E. Rodó" ],
+
+    "UY-TA": [ /* sin destinos provistos → sin cobertura */ ],
+
+    "UY-TT": [ "Treinta y Tres","La Charqueada","Santa Clara del Olimar","Cerro Chato" ]
+  };
+
+  const MAP_SVG_URL = "img/Uruguay.svg";
+  const MAP_CONTAINER = document.getElementById("uy-map");
+  const WRAP = document.getElementById("uy-map-container");
+  if(!MAP_CONTAINER || !WRAP){ console.warn("[cobertura-map] Falta el contenedor"); return; }
+
+  // Tooltip flotante
+  const tip = document.createElement("div");
+  tip.className = "tooltip";
+  WRAP.appendChild(tip);
+
+  // Cargar/inyectar el SVG para poder atachar listeners
+  fetch(MAP_SVG_URL).then(r=>r.text()).then(svgText=>{
+    MAP_CONTAINER.innerHTML = svgText;
+    const svg = MAP_CONTAINER.querySelector("svg");
+    if(!svg){ console.error("[cobertura-map] No se pudo montar el SVG."); return; }
+
+    Object.keys(DEPT_NAMES).forEach(code => {
+      const node = svg.querySelector("#"+CSS.escape(code));
+      if(!node){ console.warn("[cobertura-map] Falta en SVG:", code); return; }
+
+      node.classList.add("dept");
+      const destinos = DESTINOS_BY_DEPT[code] || [];
+      if(destinos.length){
+        node.classList.add("has-coverage");
+      }else{
+        node.classList.add("no-coverage");
+      }
+
+      // Hover → tooltip en el puntero
+      node.addEventListener("mousemove", (ev) => {
+        const list = DESTINOS_BY_DEPT[code] || [];
+        let html = `<h4>${DEPT_NAMES[code]}</h4>`;
+        if(list.length){
+          html += `<ul>` + list.map(d=>`<li>${d}</li>`).join("") + `</ul>`;
+        }else{
+          html += `<div class="sin">Sin cobertura</div>`;
+        }
+        tip.innerHTML = html;
+        tip.style.display = "block";
+        const rect = WRAP.getBoundingClientRect();
+        tip.style.left = (ev.clientX - rect.left + 12) + "px";
+        tip.style.top  = (ev.clientY - rect.top + 12) + "px";
+      });
+      node.addEventListener("mouseleave", ()=>{ tip.style.display = "none"; });
+
+      // Click → ancla/param en la misma página de cobertura
+      node.addEventListener("click", ()=>{
+        const slug = (DEPT_NAMES[code]||"")
+          .toLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+          .replace(/\s+/g,"-");
+        // ancla y query param por si querés usarlo desde el contenido
+        const href = `${location.pathname}?dept=${encodeURIComponent(code)}#${slug}`;
+        location.href = href;
+      });
+
+      // Accesibilidad
+      node.setAttribute("tabindex","0");
+      node.setAttribute("role","button");
+      node.setAttribute("aria-label", `Cobertura en ${DEPT_NAMES[code]}`);
+      node.addEventListener("keydown",(e)=>{ if(e.key==="Enter" || e.key===" "){ node.click(); }});
+    });
+
+    // Si hay ?dept= en la URL, hacemos scroll al bloque correspondiente
+    const params = new URLSearchParams(location.search);
+    const paramDept = params.get("dept");
+    if(paramDept && DEPT_NAMES[paramDept]){
+      const slug = DEPT_NAMES[paramDept].toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+        .replace(/\s+/g,"-");
+      const target = document.getElementById(slug);
+      if(target){ target.scrollIntoView({behavior:"smooth", block:"start"}); }
+    }
+  });
+
+  // Menú lateral (acordeón + “sin cobertura”)
+  document.addEventListener("click",(ev)=>{
+    const item = ev.target.closest("#menu-dptos [data-dept]");
+    if(!item) return;
+    const code = item.getAttribute("data-dept");
+    let ul = item.querySelector("ul");
+    if(!ul){
+      ul = document.createElement("ul");
+      const arr = DESTINOS_BY_DEPT[code] || [];
+      if(arr.length){
+        ul.innerHTML = arr.map(s=>`<li>${s}</li>`).join("");
+      }else{
+        if(!item.querySelector(".badge-sin")){
+          const span = document.createElement("span");
+          span.className = "badge-sin";
+          span.textContent = "sin cobertura";
+          item.appendChild(span);
+        }
+      }
+      item.appendChild(ul);
+    }
+    ul.hidden = !ul.hidden;
+  });
+
+  // Render de la grilla de destinos dentro de cada <article> (contenido anclable)
+  document.querySelectorAll(".cobertura-detalle article").forEach(art=>{
+    const id = art.id; // slug
+    const match = Object.entries(DEPT_NAMES).find(([code, name])=>{
+      const slug = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"-");
+      return slug === id;
+    });
+    if(!match) return;
+    const [code] = match;
+    const destinos = DESTINOS_BY_DEPT[code] || [];
+    const cont = art.querySelector(".destinos");
+    if(!cont) return;
+    if(!destinos.length){
+      cont.innerHTML = `<p class="sin">Sin cobertura</p>`;
+    }else{
+      cont.innerHTML = `<ul class="destinos-grid">` + destinos.map(d=>`<li>${d}</li>`).join("") + `</ul>`;
+    }
+  });
+})();
