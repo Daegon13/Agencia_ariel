@@ -36,94 +36,7 @@
 
 /* ===== Cobertura: Buscador + Mapa SVG + Accordion ===== */
 
-/** 1) Mapeo Departamento → Destinos (completá/ajustá según tu cobertura real) */
-const DESTINOS_POR_DEPTO = {
-  "artigas": ["Artigas"],
-  "canelones": ["Canelones","Progreso","Sauce","Las Piedras","Santa Lucía","Santa Rosa","San Bautista","San Ramón","Los Cerrillos","Tala","Costa de Oro"],
-  "cerro-largo": ["Melo","Río Branco","Tupambaé","Cerro Chato (comp.)","La Charqueada"],
-  "colonia": ["Colonia del Sacramento","Carmelo","Rosario","Tarariras","Nueva Palmira"],
-  "durazno": ["Durazno","Sarandí del Yí","Cerro Chato (comp.)"],
-  "flores": ["Trinidad"],
-  "florida": ["Florida","Casupá","Fray Marcos","Cerro Chato (comp.)"],
-  "lavalleja": ["Minas","Solís de Mataojo","José Pedro Varela (comp.)","Mariscala"],
-  "maldonado": ["Maldonado","Aiguá"],
-  "montevideo": ["Montevideo"],
-  "paysandu": ["Paysandú"],
-  "rio-negro": ["Fray Bentos","Young"],
-  "rivera": ["Rivera"],
-  "rocha": ["Rocha","Punta del Diablo","Castillos","Chuy","Barra de Valizas","Cabo Polonio","Aguas Dulces","La Coronilla"],
-  "salto": ["Salto"],
-  "san-jose": ["San José de Mayo","Libertad"],
-  "soriano": ["Mercedes","Cardona","José E. Rodó"],
-  "tacuarembo": ["Tacuarembó","Villa Ansina"],
-  "treinta-y-tres": ["Treinta y Tres","Santa Clara del Olimar","Cerro Chato (comp.)","La Charqueada"]
-};
 
-/** 2) Normalizador de IDs (acepta PascalCase, snake, etc. y devuelve kebab-case) */
-function normIdToKebab(id) {
-  if (!id) return "";
-  // Ej.: "Treinta y Tres" → "treinta-y-tres", "CerroLargo" → "cerro-largo"
-  return id
-    .toString()
-    .trim()
-    .replace(/_/g, "-")
-    .replace(/\s+/g, "-")
-    .replace(/([a-z])([A-Z])/g, "$1-$2")
-    .toLowerCase();
-}
-function fmtNombreDesdeKebab(k) {
-  return k.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()).replace(" Y ", " y ");
-}
-
-/** 3) Modal liviano */
-function abrirModalDepto(nombreDepto, destinos) {
-  const html = `
-    <div class="modal-backdrop" id="modalDepto">
-      <div class="modal-box">
-        <h3>${nombreDepto}</h3>
-        ${
-          destinos?.length
-            ? `<ul>${destinos.map(d=>`<li>${d}</li>`).join("")}</ul>`
-            : `<p>No hay destinos disponibles.</p>`
-        }
-        <button id="cerrarModal">Cerrar</button>
-      </div>
-    </div>`;
-  document.body.insertAdjacentHTML("beforeend", html);
-  document.getElementById("cerrarModal").addEventListener("click", ()=> {
-    document.getElementById("modalDepto")?.remove();
-  });
-}
-
-/** 4) Hook del SVG (auto-detecta paths con class="depto") */
-document.addEventListener("DOMContentLoaded", () => {
-  const mapa = document.getElementById("mapaUruguay");
-  if (!mapa) return;
-
-  mapa.addEventListener("load", () => {
-    const svgDoc = mapa.contentDocument;
-    if (!svgDoc) return;
-
-    const deptos = Array.from(svgDoc.querySelectorAll(".depto"));
-    deptos.forEach(node => {
-      const rawId = node.getAttribute("id") || "";
-      const kId = normIdToKebab(rawId);   // compat PascalCase → kebab-case
-      const destinos = DESTINOS_POR_DEPTO[kId] || [];
-
-      // Aseguro interactividad aunque el SVG ya traiga estilos
-      node.style.cursor = "pointer";
-
-      node.addEventListener("click", () => {
-        const nombre = fmtNombreDesdeKebab(kId || rawId);
-        abrirModalDepto(nombre, destinos);
-      });
-
-      // pequeño hover accesible
-      node.addEventListener("mouseenter", () => node.classList.add("hover"));
-      node.addEventListener("mouseleave", () => node.classList.remove("hover"));
-    });
-  });
-});
 
 /* ====== BUSCADOR ====== */
 (function(){
@@ -515,29 +428,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Menú lateral (acordeón + “sin cobertura”)
-  document.addEventListener("click",(ev)=>{
-    const item = ev.target.closest("#menu-dptos [data-dept]");
-    if(!item) return;
-    const code = item.getAttribute("data-dept");
-    let ul = item.querySelector("ul");
-    if(!ul){
-      ul = document.createElement("ul");
-      const arr = DESTINOS_BY_DEPT[code] || [];
-      if(arr.length){
-        ul.innerHTML = arr.map(s=>`<li>${s}</li>`).join("");
-      }else{
-        if(!item.querySelector(".badge-sin")){
-          const span = document.createElement("span");
-          span.className = "badge-sin";
-          span.textContent = "sin cobertura";
-          item.appendChild(span);
-        }
-      }
-      item.appendChild(ul);
-    }
-    ul.hidden = !ul.hidden;
-  });
 
   // Render de la grilla de destinos dentro de cada <article> (contenido anclable)
   document.querySelectorAll(".cobertura-detalle article").forEach(art=>{
@@ -558,3 +448,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 })();
+

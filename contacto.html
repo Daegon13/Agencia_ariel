@@ -1,30 +1,25 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <!-- Metadatos básicos -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contacto – Agencia Ariel</title>
-  <meta name="description" content="Teléfono, WhatsApp, dirección y formulario de cotización.">
-  
-  <!-- Enlace a los estilos -->
+  <title>Cobertura y Tiempos – Agencia Ariel</title>
+  <meta name="description" content="Cobertura nacional por zonas y ciudades con próximas salidas.">
+
+  <!-- Estilos globales -->
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Estilos del mapa -->
+  <link rel="stylesheet" href="css/cobertura-map.css">
+
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#0f172a">
 </head>
 <body>
-  <!-- Enlace para saltar al contenido principal -->
-  <a class="skip-link" href="#contenido">Saltar al contenido</a>
-
-  <!-- Encabezado del sitio -->
+  <!-- Header global -->
   <header class="site-header">
     <div class="container header-inner">
-      <!-- Logo y marca -->
-      <a href="index.html" class="brand">
-        <img src="img/logo.jpg" alt="Agencia Ariel" />
-      </a>
-      
-      <!-- Navegación principal -->
+      <a href="index.html" class="brand"><img src="img/logo.jpg" alt="Agencia Ariel"></a>
+
       <nav id="nav" class="nav" aria-label="Principal">
         <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="menuList">
           <span class="sr-only">Abrir menú</span>☰
@@ -32,13 +27,12 @@
         <ul id="menuList" class="menu">
           <li><a href="servicios/">Servicios</a></li>
           <li><a href="infraestructura.html">Infraestructura</a></li>
-          <li><a href="cobertura.html">Cobertura</a></li>
+          <li><a href="cobertura.html" aria-current="page">Cobertura</a></li>
           <li><a href="nosotros.html">Nosotros</a></li>
           <li><a href="contacto.html">Contacto</a></li>
         </ul>
       </nav>
 
-      <!-- Botones de llamada a la acción -->
       <div class="header-ctas">
         <a class="btn btn-light" href="tel:+59823073050">Llamar</a>
         <a class="btn btn-primary" id="ctaWhatsAppHeader">WhatsApp</a>
@@ -46,108 +40,39 @@
     </div>
   </header>
 
-  <!-- Contenido principal -->
-  <main id="contenido">
-    <!-- Sección de contacto -->
-    <section class="section">
-      <div class="container">
-        <h1>Contacto</h1>
-        
-        <!-- Contenedor dividido en dos columnas -->
-        <div class="grid two">
-          <!-- Información de contacto -->
-          <div class="card">
-            <p><strong>Dirección:</strong> Emancipación 5440 – Montevideo</p>
-            <p><strong>Tel:</strong> <a href="tel:+59823073050">2307 3050</a></p>
-            <p><strong>WhatsApp:</strong> <a id="ctaWhatsAppContacto">+548093943838</a></p>
-            <p><strong>Horario:</strong> Lunes a viernes de 8:30 a 17:30</p>
-            
-            <!-- Mapa de ubicación -->
-            <div class="map-embed" aria-label="Mapa de ubicación">
-              <iframe title="Mapa Agencia Ariel" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                src="https://www.google.com/maps?q=Emancipaci%C3%B3n%205440%20Montevideo&output=embed"></iframe>
-            </div>
-          </div>
+  <!-- Buscador (si lo usás) -->
+  <section class="buscador">
+    <input type="text" id="searchInput" placeholder="Buscar destino...">
+    <ul id="searchResults"></ul>
+  </section>
 
-          <!-- Formulario de cotización -->
-          <form id="cotizar" class="card form">
-            <h3>Solicitar presupuesto</h3>
-            <label>Nombre / Empresa
-              <input type="text" name="nombre" required>
-            </label>
-            <label>Email
-              <input type="email" name="email" required>
-            </label>
-            <label>Teléfono / WhatsApp
-              <input type="tel" name="telefono" required>
-            </label>
-            
-            <!-- Campos de origen y destino -->
-            <div class="grid two">
-              <label>Origen
-                <input type="text" name="origen" placeholder="Ciudad" required>
-              </label>
-              <label>Destino
-                <input type="text" name="destino" placeholder="Ciudad" required>
-              </label>
-            </div>
-            
-            <!-- Selección de tipo de envío -->
-            <label>Tipo de envío
-              <select name="tipo" required>
-                <option value="">Seleccionar…</option>
-                <option>Paquete</option>
-                <option>Paletizado</option>
-                <option>Voluminoso</option>
-              </select>
-            </label>
-            
-            <!-- Dimensiones y servicio -->
-            <label>Dimensiones / Peso aprox.
-              <input type="text" name="medidas" placeholder="Ej.: 60x40x40 cm, 20 kg">
-            </label>
-            <label>Servicio
-              <select name="servicio" required>
-                <option value="">Seleccionar…</option>
-                <option>Solo envío</option>
-                <option>Envío + Almacenaje</option>
-                <option>Embalaje y Distribución</option>
-              </select>
-            </label>
-            
-            <!-- Urgencia y mensaje -->
-            <label>Urgencia
-              <select name="urgencia">
-                <option>Estándar</option>
-                <option>Prioritario</option>
-              </select>
-            </label>
-            <label>Mensaje
-              <textarea name="mensaje" rows="4" placeholder="Contanos detalles relevantes"></textarea>
-            </label>
-            
-            <!-- Checkbox para contacto por WhatsApp -->
-            <label class="check">
-              <input type="checkbox" name="whatsapp_ok" checked> Deseo ser contactado por WhatsApp
-            </label>
-            
-            <!-- Botón de envío -->
-            <button class="btn btn-primary" type="submit">Enviar solicitud</button>
-            <p class="form-note">Responderemos dentro del horario comercial.</p>
-            <p class="form-success" hidden>¡Gracias! Te escribimos a la brevedad.</p>
-          </form>
-        </div>
+  <!-- ===== Layout Cobertura ===== -->
+  <main id="page-cobertura" class="cobertura-layout">
+    <!-- Mapa: NO metas un <svg> manual. El JS carga img/Uruguay.svg -->
+    <section class="map-wrap">
+      <div id="uy-map-container">
+        <div id="uy-map" aria-label="Mapa de Uruguay"></div>
+        <div id="tooltip" role="dialog" aria-hidden="true"></div>
       </div>
     </section>
+
+    <!-- Tu acordeón existente. NO cambié su estructura -->
+    <aside class="accordion" aria-label="Destinos con cobertura">
+      <h2>Destinos con cobertura</h2>
+      <div id="accordion-root">
+        <!-- Dejá aquí tu acordeón actual (botones/paneles).
+             El app.js lo deja CERRADO al cargar. -->
+      </div>
+    </aside>
   </main>
 
-  <!-- Pie de página -->
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p>© Agencia Ariel • 2025-09-13</p>
+      <p>© Agencia Ariel • 2025</p>
       <nav aria-label="Legal">
         <a href="contacto.html">Contacto</a>
-        <a href="servicios/">Servicios</a>
+        <a href="/servicios/">Servicios</a>
       </nav>
     </div>
   </footer>
@@ -160,7 +85,8 @@
     <a class="action" href="contacto.html#cotizar">Cotizar</a>
   </div>
 
-  <!-- Scripts -->
+  <!-- Orden de scripts: primero mapa, luego app -->
+  <script src="js/cobertura-map.js" defer></script>
   <script src="js/app.js" defer></script>
   <script type="module" src="js/firebase-init.js"></script>
   <script type="module" src="js/leads.js"></script>
