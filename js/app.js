@@ -258,3 +258,108 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+// ========== COBERTURA: INTEGRACIÓN PARA app.js ==========
+;(() => {
+  const pageRoot = document.getElementById('page-cobertura');
+  if (!pageRoot) return;
+
+  // IDs ISO del SVG -> slugs internos
+  const idMap = {
+    "UY-AR":"artigas","UY-CA":"canelones","UY-CL":"cerro_largo","UY-CO":"colonia",
+    "UY-DU":"durazno","UY-FD":"florida","UY-FS":"flores","UY-LA":"lavalleja",
+    "UY-MA":"maldonado","UY-MO":"montevideo","UY-PA":"paysandu","UY-RN":"rio_negro",
+    "UY-RV":"rivera","UY-RO":"rocha","UY-SA":"salto","UY-SJ":"san_jose",
+    "UY-SO":"soriano","UY-TA":"tacuarembo","UY-TT":"treinta_y_tres"
+  };
+
+  // Cobertura (basada en la lista de tu cliente)
+  const coverage = {
+    artigas: ["Artigas"],
+    canelones: [
+      "Canelones","Costa de Oro","Montes","Progreso","Sauce","Los Cerrillos",
+      "San Bautista","San Antonio","San Ramón","Las Piedras","Santa Lucía","Santa Rosa"
+    ],
+    cerro_largo: ["Melo","Río Branco","Tupambaé"],
+    colonia: ["Colonia","Carmelo","Rosario","Tarariras","Nueva Palmira"],
+    durazno: ["Durazno","Sarandí del Yí"],
+    flores: ["Trinidad"],
+    florida: ["Florida","Sarandí Grande","Fray Marcos","Casupá","Cerro Colorado"],
+    lavalleja: ["Minas","José Pedro Varela","Mariscala","Solís de Mataojo","José Batlle y Ordóñez"],
+    maldonado: ["Maldonado","Aiguá"],
+    montevideo: [],
+    paysandu: ["Paysandú"],
+    rio_negro: [],
+    rivera: [],
+    rocha: ["Rocha","Punta del Diablo","Castillos","Chuy","Barra de Valizas","Aguas Dulces","Cabo Polonio","La Coronilla"],
+    salto: ["Salto"],
+    san_jose: ["San José","Libertad","Villa Rodríguez"],
+    soriano: ["Cardona","José E. Rodó"],
+    tacuarembo: [],
+    treinta_y_tres: ["Treinta y Tres","Santa Clara del Olimar","La Charqueada","Cerro Chato"],
+  };
+
+  const svg = document.getElementById('uy-map');
+  const tooltip = document.getElementById('tooltip');
+  const accRoot = document.getElementById('accordion-root');
+  if (!svg || !tooltip || !accRoot) return;
+
+  // Vincular por IDs ISO del SVG
+  const paths = svg.querySelectorAll('path[id^="UY-"]');
+  paths.forEach(el => {
+    const code = el.id;
+    const slug = idMap[code];
+    const has = slug && coverage[slug] && coverage[slug].length;
+
+    el.classList.add(has ? 'dept-ok' : 'dept-no');
+
+    el.addEventListener('mousemove', (ev) => showTooltip(ev, slug, has));
+    el.addEventListener('mouseleave', hideTooltip);
+
+    // Mobile/touch
+    el.addEventListener('touchstart', (ev) => {
+      ev.preventDefault();
+      const t = ev.touches[0];
+      showTooltip({clientX:t.clientX, clientY:t.clientY}, slug, has);
+    }, {passive:false});
+    svg.addEventListener('touchend', hideTooltip, {passive:true});
+  });
+
+  buildAccordion(accRoot, coverage);
+
+  function showTooltip(ev, slug, has){
+    const label = toTitle(slug || 'Departamento');
+    tooltip.innerHTML = has
+      ? `<h3>${label}</h3><p>Destinos con cobertura:</p>${toList(coverage[slug])}`
+      : `<h3>${label}</h3><p>No hay cobertura disponible.</p>`;
+    tooltip.style.left = ev.clientX + 'px';
+    tooltip.style.top = ev.clientY + 'px';
+    tooltip.setAttribute('data-show','true');
+    tooltip.setAttribute('aria-hidden','false');
+  }
+  function hideTooltip(){
+    tooltip.removeAttribute('data-show');
+    tooltip.setAttribute('aria-hidden','true');
+  }
+  function toList(arr){ return '<ul>' + arr.map(x=>`<li>${x}</li>`).join('') + '</ul>'; }
+  function toTitle(slug){ return (slug||'').replace(/_/g,' ').replace(/\b\w/g, c=>c.toUpperCase()); }
+
+  function buildAccordion(root, data){
+    root.innerHTML = '';
+    Object.entries(data).forEach(([dept, places]) => {
+      const has = places && places.length;
+      const details = document.createElement('details');
+      if (has) details.setAttribute('open','');
+      const summary = document.createElement('summary');
+      summary.textContent = toTitle(dept) + (has ? `  ·  ${places.length}` : ' · sin cobertura');
+      details.appendChild(summary);
+      if (has){
+        const ul = document.createElement('ul');
+        places.forEach(p => { const li=document.createElement('li'); li.textContent=p; ul.appendChild(li); });
+        details.appendChild(ul);
+      }
+      root.appendChild(details);
+    });
+  }
+})();
+// ========== /COBERTURA ==========

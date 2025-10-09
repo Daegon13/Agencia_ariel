@@ -51,48 +51,28 @@
     <ul id="searchResults"></ul>
   </section>
 
-  <!-- ================== MAPA ================== -->
-<!-- ================== MAPA ================== -->
-<section class="mapa">
-  <h2>Mapa de Cobertura</h2>
-  <object id="mapaUruguay" data="img/uruguay.svg" type="image/svg+xml"></object>
-  <p>Pasa el mouse sobre un departamento o haz clic para ver destinos.</p>
-</section>
-
-  <!-- ================== MENÚ DESPLEGABLE ================== -->
-  <section class="menu-destinos">
-    <h2>Destinos por Departamento</h2>
-    <div class="accordion">
-
-      <!-- Rocha -->
-      <button class="accordion-btn">Rocha</button>
-      <div class="panel">
-        <ul>
-          <li>Rocha</li>
-          <li>Punta del Diablo</li>
-          <li>Castillos</li>
-          <li>Chuy</li>
-          <li>Barra de Valizas</li>
-          <li>Cabo Polonio</li>
-          <li>Aguas Dulces</li>
-          <li>La Coronilla</li>
-        </ul>
-      </div>
-
-      <!-- Maldonado -->
-      <button class="accordion-btn">Maldonado</button>
-      <div class="panel">
-        <ul>
-          <li>Maldonado</li>
-          <li>Aiguá</li>
-        </ul>
-      </div>
-
-      <!-- Aquí seguir agregando más departamentos -->
-    </div>
+<!-- ========== COBERTURA: CONTENEDOR DEL MAPA (usar dentro de cobertura.html) ========== -->
+<main id="page-cobertura" class="cobertura-layout">
+  <section class="map-wrap">
+    <!-- Inserta aquí TU SVG REAL de Uruguay.
+         Requisito: IDs exactos por departamento:
+         artigas, canelones, cerro_largo, colonia, durazno, flores, florida,
+         lavalleja, maldonado, montevideo, paysandu, rio_negro, rivera, rocha,
+         salto, san_jose, soriano, tacuarembo, treinta_y_tres
+    -->
+    <svg id="uy-map" viewBox="0 0 500 700" preserveAspectRatio="xMidYMid meet" aria-label="Mapa de Uruguay">
+      <!-- Pega tus <path>/<g> aquí -->
+    </svg>
+    <div id="tooltip" role="dialog" aria-hidden="true"></div>
   </section>
 
-  </main>
+  <aside class="accordion" aria-label="Destinos con cobertura">
+    <h2>Destinos con cobertura</h2>
+    <div id="accordion-root"></div>
+  </aside>
+</main>
+<!-- ========== /COBERTURA ========== -->
+
 
   <!-- Pie de página -->
   <footer class="site-footer">

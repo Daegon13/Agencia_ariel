@@ -489,3 +489,106 @@ Autor: Agencia Ariel
 
 /* Opcional: asegura que el <object> sea responsive */
 #mapaUruguay { width: 100%; max-width: 900px; height: auto; }
+
+/* ========== CSS COBERTURA ========== */
+:root{
+  --ok: #21a67a;
+  --no: #d9534f;
+  --bg: #0c1116;
+  --card: #0f1720;
+  --ink: #eaf2f1;
+  --muted: #8aa0b3;
+}
+
+#page-cobertura.cobertura-layout{
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr min(420px, 28vw);
+  gap: 24px;
+  place-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+#page-cobertura .map-wrap{
+  width: 80vw;
+  height: 80vh;
+  max-width: 1200px;
+  background: var(--card);
+  border: 1px solid #1e2a34;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+#page-cobertura #uy-map{
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#page-cobertura #uy-map [data-hoverable],
+#page-cobertura #uy-map path,
+#page-cobertura #uy-map g[id] > path{
+  transition: fill 120ms ease, stroke-width 120ms ease;
+  cursor: pointer;
+}
+
+#page-cobertura .dept-ok{ fill: #1a6d55 !important; }
+#page-cobertura .dept-ok:hover{ fill: var(--ok) !important; }
+#page-cobertura .dept-no{ fill: #6e1f1c !important; }
+#page-cobertura .dept-no:hover{ fill: var(--no) !important; }
+
+#page-cobertura #tooltip{
+  position: fixed;
+  pointer-events: none;
+  padding: .75rem .9rem;
+  background: #0b0f15;
+  border: 1px solid #243141;
+  border-radius: 10px;
+  box-shadow: 0 6px 22px rgba(0,0,0,.45);
+  min-width: 220px;
+  max-width: 360px;
+  font-size: .95rem;
+  line-height: 1.35;
+  color: var(--ink);
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 16px));
+  transition: opacity 120ms ease, transform 120ms ease;
+  z-index: 50;
+}
+#page-cobertura #tooltip[data-show="true"]{
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 10px));
+}
+#page-cobertura #tooltip h3{
+  margin: 0 0 .4rem 0;
+  font-size: 1rem;
+}
+#page-cobertura #tooltip p{ margin: 0; color: var(--muted); }
+#page-cobertura #tooltip ul{ margin: .25rem 0 0 1rem; padding: 0; }
+
+#page-cobertura .accordion{
+  height: 80vh;
+  overflow: auto;
+  background: var(--card);
+  border: 1px solid #1e2a34;
+  border-radius: 12px;
+  padding: 1rem;
+  color: var(--ink);
+}
+#page-cobertura .accordion h2{ margin: 0 0 .5rem 0; font-size: 1.1rem; }
+#page-cobertura .accordion details{ border-bottom: 1px dashed #253445; }
+#page-cobertura .accordion summary{
+  cursor: pointer; padding: .6rem .25rem; font-weight: 600; list-style: none;
+}
+#page-cobertura .accordion summary::-webkit-details-marker{ display:none; }
+#page-cobertura .accordion ul{ margin: .2rem 0 1rem 1.2rem; }
+
+@media (max-width: 1060px){
+  #page-cobertura.cobertura-layout{ grid-template-columns: 1fr; }
+  #page-cobertura .accordion{ width: 100%; height: auto; }
+  #page-cobertura .map-wrap{ width: 100%; height: 70vh; }
+}
+/* ========== /CSS COBERTURA ========== */
