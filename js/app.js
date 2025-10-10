@@ -431,7 +431,7 @@ SVG_ROOT.querySelectorAll(DEPT_SEL).forEach(node => {
     e.stopPropagation();
     const id = getDeptId(node);
     activateDept(id);
-    openAccordionItem(id);
+    if (AUTO_EXPAND_ON_SELECT) openAccordionItem(id);
     setDeptInUrl(id); // sin recargar
     // opcional: acercar el item del acordeón a la vista
     document.querySelector(`#acc-${cssSafe(id)}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
