@@ -665,3 +665,39 @@ Autor: Agencia Ariel
   0%{ box-shadow: 0 0 0 0 rgba(37,99,235,0.35); }
   100%{ box-shadow: 0 0 0 8px rgba(37,99,235,0); }
 }
+
+/* === Cobertura: marco y viewport responsivo === */
+#cobertura-map {
+  width: 100%;
+  max-width: 820px;           /* ajustá si querés un límite distinto en desktop */
+  margin-inline: auto;
+  border-radius: 16px;
+  overflow: hidden;           /* recorta cualquier “rebalse” */
+  background: #0c131a;        /* tu fondo oscuro del card */
+  padding: 0;                 /* el relleno lo da el SVG */
+}
+
+/* Mantener relación de aspecto “alta y angosta” (Uruguay es vertical) */
+@supports (aspect-ratio: 1) {
+  #cobertura-map { aspect-ratio: 3 / 4; } /* podés probar 2/3, 3/4 o 4/5 */
+}
+
+/* El SVG debe escalar fluidamente */
+#cobertura-map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Bordes que no se “engordan” al escalar */
+#cobertura-map path,
+#cobertura-map line,
+#cobertura-map polyline,
+#cobertura-map polygon {
+  vector-effect: non-scaling-stroke;
+}
+
+/* Un poco de resguardo táctil en móviles */
+#cobertura-map {
+  touch-action: manipulation;
+}

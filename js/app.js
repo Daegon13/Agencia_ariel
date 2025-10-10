@@ -381,6 +381,30 @@ document.addEventListener("DOMContentLoaded", () => {
         node.classList.add("no-coverage");
       }
 
+      function fitSvgToContent(svgEl, padding = 24) {
+  try {
+    // Tomamos el <g> principal si existe (suele contener los departamentos)
+    const content = svgEl.querySelector('g') || svgEl;
+    const box = content.getBBox();
+    const vb = [
+      box.x - padding,
+      box.y - padding,
+      box.width + padding * 2,
+      box.height + padding * 2
+    ].join(' ');
+
+    svgEl.setAttribute('viewBox', vb);
+    svgEl.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    svgEl.removeAttribute('width');
+    svgEl.removeAttribute('height');
+    svgEl.style.width = '100%';
+    svgEl.style.height = 'auto';
+  } catch (e) {
+    console.warn('[cobertura-map] No se pudo recalcular viewBox:', e);
+  }
+}
+
+
       // Hover → tooltip en el puntero
       node.addEventListener("mousemove", (ev) => {
         const list = DESTINOS_BY_DEPT[code] || [];
