@@ -524,9 +524,10 @@ Autor: Agencia Ariel
 
 #page-cobertura #uy-map{
   width: 100%;
-  height: 100%;
+  height: auto;      /* <- evita forzar altura que recorta el SVG */
   display: block;
 }
+
 
 #page-cobertura #uy-map [data-hoverable],
 #page-cobertura #uy-map path,

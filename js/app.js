@@ -368,6 +368,36 @@ document.addEventListener("DOMContentLoaded", () => {
     MAP_CONTAINER.innerHTML = svgText;
     const svg = MAP_CONTAINER.querySelector("svg");
     if(!svg){ console.error("[cobertura-map] No se pudo montar el SVG."); return; }
+    // --- Normalizar viewport del SVG de forma segura en móvil ---
+// 1) Garantiza proporción centrada y evita dimensiones fijas del archivo original
+svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+svg.removeAttribute('width');
+svg.removeAttribute('height');
+
+// 2) Recalcula viewBox con el contenido real (espera un frame para que el layout exista)
+requestAnimationFrame(() => {
+  try {
+    // Unimos las cajas de todos los elementos gráficos relevantes
+    const nodes = svg.querySelectorAll('path, polygon, polyline, rect, circle, ellipse');
+    if (!nodes.length) return; // si no hay, usamos el viewBox que traiga el archivo
+
+    let x1 = Infinity, y1 = Infinity, x2 = -Infinity, y2 = -Infinity;
+    nodes.forEach(n => {
+      const b = n.getBBox();
+      x1 = Math.min(x1, b.x);
+      y1 = Math.min(y1, b.y);
+      x2 = Math.max(x2, b.x + b.width);
+      y2 = Math.max(y2, b.y + b.height);
+    });
+
+    const pad = 0; // margen visual
+    const vb = `${x1 - pad} ${y1 - pad} ${(x2 - x1) + pad*2} ${(y2 - y1) + pad*2}`;
+    svg.setAttribute('viewBox', vb);
+  } catch (e) {
+    console.warn('[cobertura-map] No se pudo normalizar el viewBox:', e);
+  }
+});
+
 
     Object.keys(DEPT_NAMES).forEach(code => {
       const node = svg.querySelector("#"+CSS.escape(code));
