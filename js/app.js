@@ -280,7 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
  * cobertura-map.js — versión completa (100%) con todos los destinos provistos
  * Requiere en la página:
  *   <div id="uy-map-container"><div id="uy-map"></div></div>
- * SVG esperado: img/Uruguay.svg con IDs ISO-3166-2 por depto (p. ej., UY-RO)
+ * SVG esperado: img/uruguay.svg con IDs ISO-3166-2 por depto (p. ej., UY-RO)
  */
 (function(){
   // Nombres por código ISO (deben coincidir con los ids del SVG)
@@ -448,4 +448,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 })();
-
