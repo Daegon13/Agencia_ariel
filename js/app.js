@@ -357,8 +357,52 @@ document.addEventListener("DOMContentLoaded", () => {
   const MAP_CONTAINER = document.getElementById("uy-map");
   const WRAP = document.getElementById("uy-map-container");
   if(!MAP_CONTAINER || !WRAP){ console.warn("[cobertura-map] Falta el contenedor"); return; }
-  /* === Acordeón: siempre colapsado por defecto === */
-const AUTO_EXPAND_ON_SELECT = false;
+  /* === Acordeón siempre colapsado y sin auto-open en móvil/SPA === */
+/* Si YA definiste AUTO_EXPAND_ON_SELECT en otro lado, borra la línea de abajo y deja la asignación más adelante */
+const AUTO_EXPAND_ON_SELECT = false; // mantener contraído salvo gesto del usuario
+const ACC_SELECTOR = '#accordion-root'; // cambia si tu contenedor del acordeón tiene otro id
+
+function collapseAllAccordions(root = document) {
+  root.querySelectorAll(`${ACC_SELECTOR} details[open]`).forEach(d => { d.open = false; });
+}
+
+// 1) Colapsar al tener DOM y otra vez al 'load' (por Safari que a veces latea)
+document.addEventListener('DOMContentLoaded', () => collapseAllAccordions());
+window.addEventListener('load', () => collapseAllAccordions());
+
+// 2) Evitar aperturas programáticas: solo permitir toggles iniciados por el usuario
+document.addEventListener('toggle', (ev) => {
+  const d = ev.target;
+  if (!(d instanceof HTMLDetailsElement)) return;
+  // Si alguien lo abrió por código (isTrusted === false), lo volvemos a cerrar.
+  if (d.open && !ev.isTrusted) d.open = false;
+}, true);
+
+// 3) Si el acordeón se construye/actualiza dinámicamente, observar y cerrar cualquier <details> que llegue abierto
+const accRoot = document.querySelector(ACC_SELECTOR);
+if (accRoot) {
+  const mo = new MutationObserver(() => {
+    clearTimeout(mo._t);
+    mo._t = setTimeout(() => collapseAllAccordions(accRoot), 0);
+  });
+  mo.observe(accRoot, { childList: true, subtree: true });
+}
+
+// 4) Si existe openAccordionItem(id), que respete el flag sin romper otras llamadas
+(function ensureOpenFuncRespectsFlag(){
+  const esc = (s) => String(s).replace(/[^a-zA-Z0-9\-_]/g, '\\$&');
+  if (typeof window.openAccordionItem === 'function') {
+    const _open = window.openAccordionItem;
+    window.openAccordionItem = function(id) {
+      if (window.AUTO_EXPAND_ON_SELECT ?? AUTO_EXPAND_ON_SELECT) {
+        _open.call(this, id);
+      }
+      // Siempre guiamos al usuario al ítem (aunque no se abra)
+      const el = document.querySelector(`#acc-${esc(id)}`) || document.querySelector(`details[data-dept="${id}"]`);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+  }
+})();
 
 // Al cargar la página, cerrar cualquier <details> que venga abierto
 document.addEventListener('DOMContentLoaded', () => {
