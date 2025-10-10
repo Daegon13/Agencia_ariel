@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "UY-TT": [ "Treinta y Tres","La Charqueada","Santa Clara del Olimar","Cerro Chato" ]
   };
 
-  const MAP_SVG_URL = "img/Uruguay.svg";
+  const MAP_SVG_URL = "img/uruguay.svg";
   const MAP_CONTAINER = document.getElementById("uy-map");
   const WRAP = document.getElementById("uy-map-container");
   if(!MAP_CONTAINER || !WRAP){ console.warn("[cobertura-map] Falta el contenedor"); return; }
