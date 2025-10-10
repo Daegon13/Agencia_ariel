@@ -709,3 +709,15 @@ Autor: Agencia Ariel
   /* stroke: currentColor; */
   filter: brightness(1.08); /* o lo que estés usando para hover */
 }
+
+/* El contenedor del mapa debe ser relativo para posicionar el tooltip dentro */
+#uy-map-container { position: relative; }
+
+/* Tooltip flotante del mapa */
+#map-tooltip {
+  position: absolute;
+  max-width: min(85vw, 320px);
+  z-index: 20;              /* por encima del SVG */
+  pointer-events: none;     /* que no “robe” toques en móvil */
+  transform: translate3d(0,0,0);
+}
