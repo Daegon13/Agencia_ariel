@@ -702,3 +702,10 @@ Autor: Agencia Ariel
 #cobertura-map {
   touch-action: manipulation;
 }
+/* El mismo estilo que uses en :hover, aplicalo a .is-touch */
+#page-cobertura .dept.is-touch {
+  /* ejemplo: si tu :hover cambia fill/stroke */
+  /* fill: var(--accent); */
+  /* stroke: currentColor; */
+  filter: brightness(1.08); /* o lo que estés usando para hover */
+}

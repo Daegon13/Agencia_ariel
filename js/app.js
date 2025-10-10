@@ -398,6 +398,74 @@ requestAnimationFrame(() => {
   }
 });
 
+    // ==== TAP EN MÓVIL: simular hover sin recargar ====
+
+const SVG_ROOT = svg;                           // el <svg> recién inyectado
+const DEPT_SEL = '[data-dept], path[id], g[id]';
+
+// 1) Neutralizar navegación de enlaces internos del SVG (evita reload)
+SVG_ROOT.addEventListener('click', (e) => {
+  const a = e.target.closest('a,[href],[xlink\\:href]');
+  if (a) { e.preventDefault(); e.stopPropagation(); }
+}, { capture: true });
+
+// 2) Listeners por departamento
+SVG_ROOT.querySelectorAll(DEPT_SEL).forEach(node => {
+  node.classList.add('dept'); // por si tu CSS ya usa .dept
+
+  // hover real en desktop
+  node.addEventListener('pointerenter', () => activateDept(getDeptId(node)));
+  node.addEventListener('pointerleave', () => deactivateDept());
+
+  // tap/click: simular hover + abrir acordeón + NO navegar
+  node.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const id = getDeptId(node);
+    activateDept(id);
+    openAccordionItem(id);
+    setDeptInUrl(id); // sin recargar
+    // opcional: acercar el item del acordeón a la vista
+    document.querySelector(`#acc-${cssSafe(id)}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+});
+
+// --- helpers ---
+function getDeptId(el) { return el.dataset.dept || el.id; }
+function cssSafe(id)   { return id.replace(/[^a-zA-Z0-9\-_]/g, '\\$&'); }
+
+let CURRENT_EL = null;
+function activateDept(id) {
+  if (CURRENT_EL) CURRENT_EL.classList.remove('is-touch');
+  CURRENT_EL = SVG_ROOT.querySelector(`[data-dept="${id}"], #${cssSafe(id)}`);
+  if (CURRENT_EL) CURRENT_EL.classList.add('is-touch'); // mimetiza :hover
+}
+function deactivateDept() {
+  if (CURRENT_EL) CURRENT_EL.classList.remove('is-touch');
+  CURRENT_EL = null;
+}
+
+// Abre el acordeón del depto (ajustá el selector a tu markup)
+function openAccordionItem(id) {
+  // ejemplos posibles:
+  const d = document.querySelector(`#acc-${cssSafe(id)}`) 
+        || document.querySelector(`details[data-dept="${id}"]`);
+  if (d && 'open' in d) d.open = true;
+}
+
+// Cambia la URL sin recargar la página (nada de navegar)
+function setDeptInUrl(id) {
+  const url = new URL(location);
+  url.searchParams.set('dept', id);
+  history.replaceState(null, '', url); // NO agrega entrada al historial y NO recarga
+}
+
+// (Opcional) si tenés tooltip flotante, lo apagamos en touch:
+if (matchMedia('(hover: none)').matches) {
+  document.querySelector('#map-tooltip')?.classList.add('hidden'); // o removerlo
+}
+
+
 
     Object.keys(DEPT_NAMES).forEach(code => {
       const node = svg.querySelector("#"+CSS.escape(code));
