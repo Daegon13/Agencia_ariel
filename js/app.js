@@ -357,6 +357,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const MAP_CONTAINER = document.getElementById("uy-map");
   const WRAP = document.getElementById("uy-map-container");
   if(!MAP_CONTAINER || !WRAP){ console.warn("[cobertura-map] Falta el contenedor"); return; }
+  /* === Acordeón: siempre colapsado por defecto === */
+const AUTO_EXPAND_ON_SELECT = false;
+
+// Al cargar la página, cerrar cualquier <details> que venga abierto
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#accordion-root details[open]').forEach(d => { d.open = false; });
+});
+
 
   // Tooltip flotante
   const tip = document.createElement("div");
