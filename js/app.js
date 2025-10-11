@@ -538,7 +538,7 @@ function positionTooltipFromNode(node) {
   clampTooltipPosition(relX, relY);
 }
 
-positionTooltipFromPointer(event);
+positionTooltipFromPointer(ev);
 
 // 1) Garantiza proporción centrada y evita dimensiones fijas del archivo original
 svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
