@@ -421,6 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const svg = MAP_CONTAINER.querySelector("svg");
     if(!svg){ console.error("[cobertura-map] No se pudo montar el SVG."); return; }
     // --- Normalizar viewport del SVG de forma segura en móvil ---
+
     
 // 1) Garantiza proporción centrada y evita dimensiones fijas del archivo original
 svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
