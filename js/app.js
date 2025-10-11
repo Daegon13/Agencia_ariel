@@ -624,3 +624,42 @@ if (matchMedia('(hover: none)').matches) {
     }
   });
 })();
+
+// Posiciona el tooltip: por defecto a la derecha del puntero; si desborda, lo "flipa" a la izquierda
+function positionTooltip(tipEl, clientX, clientY, containerEl = document.getElementById('uy-map-container')) {
+  const isMobile = window.matchMedia('(max-width: 640px)').matches;
+  if (isMobile) return; // en móvil ya queda centrado por CSS
+
+  // Aseguramos medidas reales
+  const prevVis = tipEl.style.visibility;
+  const prevDisp = tipEl.style.display;
+  tipEl.style.visibility = 'hidden';
+  tipEl.style.display = 'block';
+
+  const contRect = containerEl.getBoundingClientRect();
+  const tipRect  = tipEl.getBoundingClientRect();
+  const OFFSET   = 12;
+
+  // Posición base: a la derecha del puntero
+  let left = clientX + OFFSET;
+  let top  = clientY - tipRect.height / 2;
+
+  // Si se pasa del borde derecho del contenedor, flip a la izquierda
+  const wouldOverflowRight = left + tipRect.width > contRect.right;
+  if (wouldOverflowRight) {
+    left = clientX - OFFSET - tipRect.width;
+  }
+
+  // Clamp vertical dentro del contenedor
+  const minTop = contRect.top + 8;
+  const maxTop = contRect.bottom - tipRect.height - 8;
+  top = Math.max(minTop, Math.min(top, maxTop));
+
+  // Convertir a coords relativas al contenedor (tooltip con position:absolute dentro del contenedor)
+  tipEl.style.left = (left - contRect.left) + 'px';
+  tipEl.style.top  = (top  - contRect.top)  + 'px';
+
+  // Restaurar visibilidad
+  tipEl.style.display = prevDisp || '';
+  tipEl.style.visibility = prevVis || '';
+}

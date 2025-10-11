@@ -770,3 +770,15 @@ Autor: Agencia Ariel
   #page-cobertura #tooltip, 
   #page-cobertura #tooltip *{ text-shadow:0 1px 1px rgba(0,0,0,.25); }
 }
+
+/* Tooltip centrado en móvil */
+@media (max-width: 640px){
+  #uy-map-container .tooltip{
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-width: min(92vw, 420px);
+    z-index: 9999;
+  }
+}
