@@ -784,7 +784,7 @@ Autor: Agencia Ariel
 }
 
 /* === Barra de acciones móvil: scroll horizontal por arrastre === */
-#mobile-actions{
+#action-bar{
   display: flex;
   gap: .75rem;
   overflow-x: auto;
@@ -798,13 +798,14 @@ Autor: Agencia Ariel
 }
 
 /* Oculta scrollbar en WebKit */
-#mobile-actions::-webkit-scrollbar { display: none; }
+#action-bar::-webkit-scrollbar { display: none; }
 
 /* (Opcional) Snap agradable entre ítems si están “en tarjetas/chips” */
-#mobile-actions{
+#action-bar{
   scroll-snap-type: x proximity;
 }
-#mobile-actions > *{
+#action-bar > *{
   scroll-snap-align: start;
   flex: 0 0 auto; /* que no se rompa el scroll horizontal */
 }
+ 
