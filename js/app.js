@@ -226,13 +226,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     el.classList.add(has ? 'dept-ok' : 'dept-no');
 
-    el.addEventListener('mousemove', (ev) => showTooltip(ev, slug, has));
+    el.addEventListener('mousemove', (event) => showTooltip(event, slug, has));
     el.addEventListener('mouseleave', hideTooltip);
 
     // Mobile/touch
-    el.addEventListener('touchstart', (ev) => {
-      ev.preventDefault();
-      const t = ev.touches[0];
+    el.addEventListener('touchstart', (event) => {
+      event.preventDefault();
+      const t = event.touches[0];
       showTooltip({clientX:t.clientX, clientY:t.clientY}, slug, has);
     }, {passive:false});
     svg.addEventListener('touchend', hideTooltip, {passive:true});
@@ -240,13 +240,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   buildAccordion(accRoot, coverage);
 
-  function showTooltip(ev, slug, has){
+  function showTooltip(event, slug, has){
     const label = toTitle(slug || 'Departamento');
     tooltip.innerHTML = has
       ? `<h3>${label}</h3><p>Destinos con cobertura:</p>${toList(coverage[slug])}`
       : `<h3>${label}</h3><p>No hay cobertura disponible.</p>`;
-    tooltip.style.left = ev.clientX + 'px';
-    tooltip.style.top = ev.clientY + 'px';
+    tooltip.style.left = event.clientX + 'px';
+    tooltip.style.top = event.clientY + 'px';
     tooltip.setAttribute('data-show','true');
     tooltip.setAttribute('aria-hidden','false');
   }
@@ -371,11 +371,11 @@ document.addEventListener('DOMContentLoaded', () => collapseAllAccordions());
 window.addEventListener('load', () => collapseAllAccordions());
 
 // 2) Evitar aperturas programáticas: solo permitir toggles iniciados por el usuario
-document.addEventListener('toggle', (ev) => {
-  const d = ev.target;
+document.addEventListener('toggle', (event) => {
+  const d = event.target;
   if (!(d instanceof HTMLDetailsElement)) return;
   // Si alguien lo abrió por código (isTrusted === false), lo volvemos a cerrar.
-  if (d.open && !ev.isTrusted) d.open = false;
+  if (d.open && !event.isTrusted) d.open = false;
 }, true);
 
 // 3) Si el acordeón se construye/actualiza dinámicamente, observar y cerrar cualquier <details> que llegue abierto
@@ -558,7 +558,7 @@ if (matchMedia('(hover: none)').matches) {
 
 
       // Hover → tooltip en el puntero
-      node.addEventListener("mousemove", (ev) => {
+      node.addEventListener("mousemove", (event) => {
         const list = DESTINOS_BY_DEPT[code] || [];
         let html = `<h4>${DEPT_NAMES[code]}</h4>`;
         if(list.length){
@@ -569,8 +569,8 @@ if (matchMedia('(hover: none)').matches) {
         tip.innerHTML = html;
         tip.style.display = "block";
         const rect = WRAP.getBoundingClientRect();
-        tip.style.left = (ev.clientX - rect.left + 12) + "px";
-        tip.style.top  = (ev.clientY - rect.top + 12) + "px";
+        tip.style.left = (event.clientX - rect.left + 12) + "px";
+        tip.style.top  = (event.clientY - rect.top + 12) + "px";
       });
       node.addEventListener("mouseleave", ()=>{ tip.style.display = "none"; });
 
