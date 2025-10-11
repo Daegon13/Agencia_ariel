@@ -421,9 +421,77 @@ document.addEventListener('DOMContentLoaded', () => {
     const svg = MAP_CONTAINER.querySelector("svg");
     if(!svg){ console.error("[cobertura-map] No se pudo montar el SVG."); return; }
     // --- Normalizar viewport del SVG de forma segura en móvil ---
-    // ==== Posicionamiento inteligente del tooltip dentro del mapa ====
-const MAP_WRAP  = document.getElementById('uy-map-container');  // contenedor del mapa (card)
-const MAP_TIP   = document.getElementById('map-tooltip');       // panel de info
+    // ==== Posicionamiento inteligente del tooltip ====
+const MAP_WRAP = document.getElementById('uy-map-container');
+const MAP_TIP  = document.getElementById('map-tooltip');
+const GAP = 12;
+
+// Medir tooltip aunque esté oculto
+function measureTip(){
+  if (!MAP_TIP) return {w:0,h:0};
+  const prevVis = MAP_TIP.style.visibility;
+  const prevDisp = MAP_TIP.style.display;
+  MAP_TIP.style.visibility = 'hidden';
+  MAP_TIP.style.display = 'block';
+  const w = MAP_TIP.offsetWidth;
+  const h = MAP_TIP.offsetHeight;
+  MAP_TIP.style.display = prevDisp || '';
+  MAP_TIP.style.visibility = prevVis || '';
+  return { w, h };
+}
+
+// Colocar el tooltip alrededor de (relX, relY) y voltearlo si no entra
+function placeTip(relX, relY){
+  if (!MAP_WRAP || !MAP_TIP) return;
+  const cw = MAP_WRAP.clientWidth, ch = MAP_WRAP.clientHeight;
+  const { w:tw, h:th } = measureTip();
+
+  // Posición base: a la DERECHA y centrado vertical del ancla
+  let x = relX + GAP;
+  let y = relY - th/2;
+
+  // Si no entra a la derecha, VOLTEAR a la IZQUIERDA
+  if (x + tw + GAP > cw){
+    x = relX - tw - GAP;
+  }
+
+  // Clamps verticales
+  if (y < GAP) y = GAP;
+  if (y + th + GAP > ch) y = ch - th - GAP;
+
+  // Clamps horizontales por las dudas
+  if (x < GAP) x = GAP;
+  if (x + tw + GAP > cw) x = cw - tw - GAP;
+
+  MAP_TIP.style.left = `${x}px`;
+  MAP_TIP.style.top  = `${y}px`;
+}
+
+// Hover/mouse
+function positionTooltipFromPointer(ev){
+  if (!MAP_WRAP) return;
+  const r = MAP_WRAP.getBoundingClientRect();
+  const relX = ev.clientX - r.left;
+  const relY = ev.clientY - r.top;
+  placeTip(relX, relY);
+}
+
+// Tap/click (usá el centro del departamento)
+function positionTooltipFromNode(node){
+  if (!MAP_WRAP || !node) return;
+  const rWrap = MAP_WRAP.getBoundingClientRect();
+  const rNode = node.getBoundingClientRect();
+  const relX = (rNode.left + rNode.width/2) - rWrap.left;
+  const relY = (rNode.top  + rNode.height/2) - rWrap.top;
+  placeTip(relX, relY);
+}
+
+// (Opcional) marcar el título dentro del tooltip para aplicar el CSS de “alto contraste”
+function emphasizeTip(){
+  const t = MAP_TIP?.querySelector('h3,h4,strong,b,.title') || MAP_TIP?.firstElementChild;
+  t?.classList.add('mt-title');
+}
+
 
 function clampTooltipPosition(relX, relY) {
   if (!MAP_WRAP || !MAP_TIP) return;

@@ -710,14 +710,36 @@ Autor: Agencia Ariel
   filter: brightness(1.08); /* o lo que estés usando para hover */
 }
 
-/* El contenedor del mapa debe ser relativo para posicionar el tooltip dentro */
+/* El contenedor ya actúa como referencia para el tooltip */
 #uy-map-container { position: relative; }
 
-/* Tooltip flotante del mapa */
-#map-tooltip {
+/* Tooltip más legible en móvil */
+#map-tooltip{
   position: absolute;
   max-width: min(85vw, 320px);
-  z-index: 20;              /* por encima del SVG */
-  pointer-events: none;     /* que no “robe” toques en móvil */
+  z-index: 20;
+  pointer-events: none;
   transform: translate3d(0,0,0);
+  /* estética opcional, ajustá si querés: */
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
 }
+
+@media (max-width: 768px){
+  #map-tooltip{ font-size: 1.05rem; line-height: 1.25; }
+}
+
+/* Título y lista del tooltip: alto contraste */
+#map-tooltip h3,
+#map-tooltip h4,
+#map-tooltip strong:first-child,
+#map-tooltip .mt-title{
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: var(--accent, #cde6ff);       /* usa tu --accent si existe */
+  text-shadow: 0 1px 0 rgba(0,0,0,.35);
+}
+
+#map-tooltip ul{ margin: .5rem 0 0; padding-left: 1.1rem; }
+#map-tooltip li{ font-weight: 600; }
+#map-tooltip li::marker{ color: var(--accent, #cde6ff); }
