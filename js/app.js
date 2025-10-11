@@ -722,31 +722,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Drag para action-bar
 const actionBar = document.getElementById('action-bar');
-let isDown = false;
-let startX;
-let scrollLeft;
+if (actionBar) {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
 
-actionBar.addEventListener('mousedown', (e) => {
-    isDown = true;
-    actionBar.classList.add('active');
-    startX = e.pageX - actionBar.offsetLeft;
-    scrollLeft = actionBar.scrollLeft;
-});
+    // Función para manejar el inicio del arrastre
+    function startDrag(e) {
+        isDown = true;
+        actionBar.classList.add('active');
+        startX = (e.touches ? e.touches[0].pageX : e.pageX) - actionBar.offsetLeft;
+        scrollLeft = actionBar.scrollLeft;
+    }
 
-actionBar.addEventListener('mouseleave', () => {
-    isDown = false;
-    actionBar.classList.remove('active');
-});
+    // Función para manejar el movimiento del arrastre
+    function moveDrag(e) {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = (e.touches ? e.touches[0].pageX : e.pageX) - actionBar.offsetLeft;
+        const walk = (x - startX) * 2; // Ajusta la velocidad
+        actionBar.scrollLeft = scrollLeft - walk;
+    }
 
-actionBar.addEventListener('mouseup', () => {
-    isDown = false;
-    actionBar.classList.remove('active');
-});
+    // Función para manejar el fin del arrastre
+    function endDrag() {
+        isDown = false;
+        actionBar.classList.remove('active');
+    }
 
-actionBar.addEventListener('mousemove', (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - actionBar.offsetLeft;
-    const walk = (x - startX) * 2; // Ajusta la velocidad
-    actionBar.scrollLeft = scrollLeft - walk;
-});
+    // Eventos para dispositivos con mouse
+    actionBar.addEventListener('mousedown', startDrag);
+    actionBar.addEventListener('mousemove', moveDrag);
+    actionBar.addEventListener('mouseup', endDrag);
+    actionBar.addEventListener('mouseleave', endDrag);
+
+    // Eventos para dispositivos táctiles
+    actionBar.addEventListener('touchstart', startDrag, { passive: true });
+    actionBar.addEventListener('touchmove', moveDrag, { passive: false });
+    actionBar.addEventListener('touchend', endDrag);
+}
