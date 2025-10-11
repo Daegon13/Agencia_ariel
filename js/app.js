@@ -663,3 +663,60 @@ function positionTooltip(tipEl, clientX, clientY, containerEl = document.getElem
   tipEl.style.display = prevDisp || '';
   tipEl.style.visibility = prevVis || '';
 }
+
+// Habilita desplazamiento horizontal por arrastre en un contenedor
+function enableDragScroll(el){
+  if (!el) return;
+
+  let isDown = false;
+  let startX = 0;
+  let startScrollLeft = 0;
+  let moved = false;
+
+  // Pointer Events (cubren touch y mouse modernos)
+  el.addEventListener('pointerdown', (e) => {
+    isDown = true;
+    moved = false;
+    startX = e.clientX;
+    startScrollLeft = el.scrollLeft;
+    el.setPointerCapture?.(e.pointerId);
+  });
+
+  el.addEventListener('pointermove', (e) => {
+    if (!isDown) return;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 4) moved = true;
+    el.scrollLeft = startScrollLeft - dx;
+  });
+
+  ['pointerup','pointercancel','pointerleave'].forEach(ev =>
+    el.addEventListener(ev, (e) => {
+      isDown = false;
+      if (e.pointerId != null) el.releasePointerCapture?.(e.pointerId);
+    })
+  );
+
+  // Evita que un “drag” dispare click en los botones/links
+  el.addEventListener('click', (e) => {
+    if (moved) {
+      e.preventDefault();
+      e.stopPropagation();
+      moved = false;
+    }
+  }, true);
+
+  // (Opcional) Soporte de wheel horizontal en desktop
+  el.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+      el.scrollLeft += e.deltaX;
+      e.preventDefault();
+    }
+  }, { passive: false });
+}
+
+// Inicializar cuando cargue la página de cobertura
+document.addEventListener('DOMContentLoaded', () => {
+  // Cambiá el selector si tu barra usa otra referencia
+  const actionsBar = document.querySelector('#mobile-actions');
+  enableDragScroll(actionsBar);
+});

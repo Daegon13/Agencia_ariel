@@ -782,3 +782,29 @@ Autor: Agencia Ariel
     z-index: 9999;
   }
 }
+
+/* === Barra de acciones móvil: scroll horizontal por arrastre === */
+#mobile-actions{
+  display: flex;
+  gap: .75rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; /* inercia en iOS */
+  overscroll-behavior-x: contain;     /* no “rebota” toda la página */
+  scrollbar-width: none;               /* oculta scrollbar en Firefox */
+  touch-action: pan-y;                 /* dejamos el vertical al navegador; el horizontal lo manejamos en JS */
+  padding: .5rem 1rem;
+  /* Si ya está fija al fondo, mantené tus position/bottom/left/right existentes */
+}
+
+/* Oculta scrollbar en WebKit */
+#mobile-actions::-webkit-scrollbar { display: none; }
+
+/* (Opcional) Snap agradable entre ítems si están “en tarjetas/chips” */
+#mobile-actions{
+  scroll-snap-type: x proximity;
+}
+#mobile-actions > *{
+  scroll-snap-align: start;
+  flex: 0 0 auto; /* que no se rompa el scroll horizontal */
+}
