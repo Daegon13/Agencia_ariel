@@ -740,7 +740,7 @@ if (actionBar) {
         if (!isDown) return;
         e.preventDefault();
         const x = (e.touches ? e.touches[0].pageX : e.pageX) - actionBar.offsetLeft;
-        const walk = (x - startX) * 2; // Ajusta la velocidad
+        const walk = (x - startX) * 3; // Amplifica el alcance del movimiento
         actionBar.scrollLeft = scrollLeft - walk;
     }
 
@@ -760,4 +760,22 @@ if (actionBar) {
     actionBar.addEventListener('touchstart', startDrag, { passive: true });
     actionBar.addEventListener('touchmove', moveDrag, { passive: false });
     actionBar.addEventListener('touchend', endDrag);
+
+    // Suaviza el desplazamiento con inercia
+    let isScrolling = false;
+    actionBar.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (isScrolling) return;
+        isScrolling = true;
+
+        const delta = e.deltaY || e.deltaX; // Detecta el desplazamiento
+        actionBar.scrollBy({
+            left: delta * 2, // Amplifica el desplazamiento
+            behavior: 'smooth', // Suaviza el movimiento
+        });
+
+        setTimeout(() => {
+            isScrolling = false;
+        }, 100); // Controla la frecuencia del desplazamiento
+    }, { passive: false });
 }
