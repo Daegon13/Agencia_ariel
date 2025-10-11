@@ -729,17 +729,44 @@ Autor: Agencia Ariel
   #map-tooltip{ font-size: 1.05rem; line-height: 1.25; }
 }
 
-/* Título y lista del tooltip: alto contraste */
-#map-tooltip h3,
-#map-tooltip h4,
-#map-tooltip strong:first-child,
-#map-tooltip .mt-title{
-  font-weight: 800;
-  letter-spacing: .2px;
-  color: var(--accent, #cde6ff);       /* usa tu --accent si existe */
-  text-shadow: 0 1px 0 rgba(0,0,0,.35);
+/* === FIX contraste tooltip cobertura (móvil & general) === */
+
+/* Versión globo BLANCO (la actual que crea .tooltip) */
+#uy-map-container .tooltip{
+  color:#0f172a;               /* texto bien oscuro */
+}
+#uy-map-container .tooltip h3{ 
+  color:#0b1220; 
+  font-weight:700; 
+  letter-spacing:.2px; 
+}
+#uy-map-container .tooltip li{ 
+  color:#111827; 
+  font-weight:600; 
+}
+@media (max-width:640px){
+  #uy-map-container .tooltip{
+    font-size:1rem;            /* un pelín más grande en móvil */
+    border-color:#cbd5e1;
+  }
 }
 
-#map-tooltip ul{ margin: .5rem 0 0; padding-left: 1.1rem; }
-#map-tooltip li{ font-weight: 600; }
-#map-tooltip li::marker{ color: var(--accent, #cde6ff); }
+/* Si alguna vista usa el tooltip viejo #tooltip (fondo oscuro), 
+   aseguramos texto de alto contraste también: */
+#page-cobertura #tooltip{ 
+  color:#f8fafc; 
+}
+#page-cobertura #tooltip h3{ 
+  color:#ffffff; 
+  font-weight:700; 
+}
+#page-cobertura #tooltip p,
+#page-cobertura #tooltip li{ 
+  color:#e5e7eb; 
+}
+/* Pequeño refuerzo de legibilidad en pantallas chicas */
+@media (max-width:640px){
+  #page-cobertura #tooltip{ font-size:1rem; }
+  #page-cobertura #tooltip, 
+  #page-cobertura #tooltip *{ text-shadow:0 1px 1px rgba(0,0,0,.25); }
+}

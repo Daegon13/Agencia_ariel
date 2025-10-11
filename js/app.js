@@ -83,9 +83,9 @@
 // === Cobertura: colores y labels (simple y directo sobre el SVG de MapSVG) ===
 // Configuración de colores
 const COLOR_COVER = "#3fc380";   // verde cobertura
-const COLOR_NO_COVER = "#cfcfcf"; // gris sin cobertura
+const COLOR_NO_COVER = "#00ff0dff"; // gris sin cobertura
 const COLOR_HOVER = "#5ff0a0";    // verde brillante al hover
-const COLOR_STROKE = "#444";      // borde
+const COLOR_STROKE = "#ff0000ff";      // borde
 
 // Departamentos con cobertura (según la lista de tu cliente)
 const DEPTOS_COBERTURA = new Set([
