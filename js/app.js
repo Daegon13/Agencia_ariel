@@ -1,4 +1,3 @@
-
 /* app.js (compartido) */
 (function(){
   const qs = s => document.querySelector(s);
@@ -719,4 +718,35 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cambiá el selector si tu barra usa otra referencia
   const actionsBar = document.querySelector('#mobile-actions');
   enableDragScroll(actionsBar);
+});
+
+// Drag para action-bar
+const actionBar = document.getElementById('action-bar');
+let isDown = false;
+let startX;
+let scrollLeft;
+
+actionBar.addEventListener('mousedown', (e) => {
+    isDown = true;
+    actionBar.classList.add('active');
+    startX = e.pageX - actionBar.offsetLeft;
+    scrollLeft = actionBar.scrollLeft;
+});
+
+actionBar.addEventListener('mouseleave', () => {
+    isDown = false;
+    actionBar.classList.remove('active');
+});
+
+actionBar.addEventListener('mouseup', () => {
+    isDown = false;
+    actionBar.classList.remove('active');
+});
+
+actionBar.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - actionBar.offsetLeft;
+    const walk = (x - startX) * 2; // Ajusta la velocidad
+    actionBar.scrollLeft = scrollLeft - walk;
 });
