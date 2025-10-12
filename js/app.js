@@ -723,59 +723,24 @@ document.addEventListener('DOMContentLoaded', () => {
 // Drag para action-bar
 const actionBar = document.getElementById('action-bar');
 if (actionBar) {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
+    let isDragging = false;
+    let startX = 0;
+    let scrollLeft = 0;
 
-    // Función para manejar el inicio del arrastre
-    function startDrag(e) {
-        isDown = true;
-        actionBar.classList.add('active');
-        startX = (e.touches ? e.touches[0].pageX : e.pageX) - actionBar.offsetLeft;
+    actionBar.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].pageX - actionBar.offsetLeft;
         scrollLeft = actionBar.scrollLeft;
-    }
+    }, { passive: true });
 
-    // Función para manejar el movimiento del arrastre
-    function moveDrag(e) {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = (e.touches ? e.touches[0].pageX : e.pageX) - actionBar.offsetLeft;
-        const walk = (x - startX) * 3; // Amplifica el alcance del movimiento
+    actionBar.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const x = e.touches[0].pageX - actionBar.offsetLeft;
+        const walk = (x - startX) * 2; // Ajusta la sensibilidad
         actionBar.scrollLeft = scrollLeft - walk;
-    }
-
-    // Función para manejar el fin del arrastre
-    function endDrag() {
-        isDown = false;
-        actionBar.classList.remove('active');
-    }
-
-    // Eventos para dispositivos con mouse
-    actionBar.addEventListener('mousedown', startDrag);
-    actionBar.addEventListener('mousemove', moveDrag);
-    actionBar.addEventListener('mouseup', endDrag);
-    actionBar.addEventListener('mouseleave', endDrag);
-
-    // Eventos para dispositivos táctiles
-    actionBar.addEventListener('touchstart', startDrag, { passive: true });
-    actionBar.addEventListener('touchmove', moveDrag, { passive: false });
-    actionBar.addEventListener('touchend', endDrag);
-
-    // Suaviza el desplazamiento con inercia
-    let isScrolling = false;
-    actionBar.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        if (isScrolling) return;
-        isScrolling = true;
-
-        const delta = e.deltaY || e.deltaX; // Detecta el desplazamiento
-        actionBar.scrollBy({
-            left: delta * 2, // Amplifica el desplazamiento
-            behavior: 'smooth', // Suaviza el movimiento
-        });
-
-        setTimeout(() => {
-            isScrolling = false;
-        }, 100); // Controla la frecuencia del desplazamiento
     }, { passive: false });
+
+    actionBar.addEventListener('touchend', () => {
+        isDragging = false;
+    });
 }
