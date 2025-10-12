@@ -39,15 +39,37 @@
 
 /* ====== BUSCADOR ====== */
 (function(){
-  const destinos = [
-    // Puedes generar esta lista a partir de DESTINOS_POR_DEPTO si querés evitar doble mantenimiento:
-    // ...Object.values(DESTINOS_POR_DEPTO).flat()
-    "Rocha","Punta del Diablo","Castillos","Chuy","Barra de Valizas","Cabo Polonio","Aguas Dulces","La Coronilla",
-    "Maldonado","Aiguá","Paysandú","Carmelo","Colonia","Rosario","Tarariras","Nueva Palmira",
-    "San José","Libertad","Florida","Casupá","Fray Marcos","Canelones","Progreso","Sauce","Las Piedras",
-    "Santa Lucía","Santa Rosa","Tala","Durazno","Trinidad","Salto","Treinta y Tres","Santa Clara del Olimar",
-    "Cerro Chato","Artigas","Minas","Solís de Mataojo"
-  ];
+  const coverage = {
+    artigas: ["Artigas"],
+    canelones: [
+      "Canelones", "Costa de Oro", "Montes", "Progreso", "Sauce", "Los Cerrillos",
+      "San Bautista", "San Antonio", "San Ramón", "Las Piedras", "Santa Lucía", "Santa Rosa"
+    ],
+    cerro_largo: ["Melo", "Río Branco", "Tupambaé"],
+    colonia: ["Colonia", "Carmelo", "Rosario", "Tarariras", "Nueva Palmira"],
+    durazno: ["Durazno", "Sarandí del Yí"],
+    flores: ["Trinidad"],
+    florida: ["Florida", "Sarandí Grande", "Fray Marcos", "Casupá", "Cerro Colorado"],
+    lavalleja: ["Minas", "José Pedro Varela", "Mariscala", "Solís de Mataojo", "José Batlle y Ordóñez"],
+    maldonado: ["Maldonado", "Aiguá"],
+    montevideo: [],
+    paysandu: ["Paysandú"],
+    rio_negro: [],
+    rivera: [],
+    rocha: [
+      "Rocha", "Punta del Diablo", "Castillos", "Chuy", "Barra de Valizas", "Aguas Dulces",
+      "Cabo Polonio", "La Coronilla"
+    ],
+    salto: ["Salto"],
+    san_jose: ["San José", "Libertad", "Villa Rodríguez"],
+    soriano: ["Cardona", "José E. Rodó"],
+    tacuarembo: [],
+    treinta_y_tres: ["Treinta y Tres", "Santa Clara del Olimar", "La Charqueada", "Cerro Chato"]
+  };
+
+  // Generar una lista plana de destinos a partir de `coverage`
+  const destinos = Object.values(coverage).flat();
+
   const qi = document.getElementById("searchInput");
   const ul = document.getElementById("searchResults");
   if (!qi || !ul) return;

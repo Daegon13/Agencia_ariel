@@ -394,12 +394,25 @@ Autor: Agencia Ariel
 .buscador {
   text-align: center;
   padding: 1rem;
+  background: var(--panel); /* Fondo amigable */
+  border-radius: var(--radius); /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 #searchInput {
   width: 80%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   font-size: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius); /* Bordes redondeados */
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ink);
+}
+
+#searchInput:focus {
+  outline: none;
+  border-color: var(--brand); /* Color de enfoque */
+  box-shadow: 0 0 4px var(--brand);
 }
 
 #searchResults {
@@ -413,7 +426,13 @@ Autor: Agencia Ariel
   margin: 0.2rem 0;
   padding: 0.5rem;
   border: 1px solid #ccc;
+  border-radius: var(--radius); /* Bordes redondeados */
   cursor: pointer;
+  color: black; /* Texto con contraste */
+}
+
+#searchResults li:hover {
+  background: #f3f4f6; /* Fondo más claro al pasar el mouse */
 }
 
 /* ===== ACCORDION ===== */
@@ -808,4 +827,3 @@ Autor: Agencia Ariel
   scroll-snap-align: start;
   flex: 0 0 auto; /* que no se rompa el scroll horizontal */
 }
- 
