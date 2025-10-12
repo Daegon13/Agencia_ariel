@@ -839,3 +839,68 @@ Autor: Agencia Ariel
   max-height: 500px; /* Ajusta según el contenido */
   transition: max-height 0.3s ease;
 }
+
+/* === FIX CONTRASTE ACORDEÓN (forzado + móvil) === */
+
+/* Texto por defecto del acordeón en oscuro */
+#page-cobertura .accordion{
+  color: #0b1220 !important;       /* fuerza tinta oscura */
+  background: #ffffff;             /* fondo claro legible */
+}
+
+/* Título del bloque */
+#page-cobertura .accordion h2{ color:#0b1220; }
+
+/* Cabeceras del acordeón: <summary> o .accordion-btn */
+#page-cobertura .accordion summary,
+#page-cobertura .accordion .accordion-btn{
+  color:#0f172a;                   /* texto muy oscuro */
+  background:#f8fafc;              /* pill claro */
+  border:2px solid #0f172a;
+  border-radius:10px;
+  padding:.75rem .9rem;
+  font-weight:700;
+  letter-spacing:.2px;
+}
+
+/* Estado abierto / foco con resaltado potente */
+#page-cobertura .accordion details[open] > summary,
+#page-cobertura .accordion .accordion-btn.active,
+#page-cobertura .accordion summary:focus-visible,
+#page-cobertura .accordion .accordion-btn:focus-visible{
+  background:#0f172a;              /* inversión: fondo oscuro */
+  color:#ffffff;                   /* texto blanco */
+  outline:3px solid #facc15;       /* halo amarillo de alto contraste */
+  outline-offset:2px;
+}
+
+/* Contenido interno: listas y links en oscuro legible */
+#page-cobertura .accordion .panel,
+#page-cobertura .accordion li,
+#page-cobertura .accordion a{
+  color:#111827;
+}
+
+/* Resaltado tipo marcador (para énfasis o coincidencias de búsqueda) */
+#page-cobertura .accordion mark{
+  background:#facc15; color:#111827;
+  padding:0 .2em; border-radius:.2em;
+}
+
+/* En móvil: subir tamaño y dar feedback táctil más visible */
+@media (max-width:720px){
+  #page-cobertura .accordion summary,
+  #page-cobertura .accordion .accordion-btn{
+    font-size:1.1rem; line-height:1.25;
+  }
+  #page-cobertura .accordion summary:active,
+  #page-cobertura .accordion .accordion-btn:active{
+    background:#facc15; color:#111827; /* flash amarillo al tocar */
+  }
+}
+
+/* Cuando llega resaltado desde el mapa */
+#accordion-root .highlight-accent{
+  background:#0f172a !important; color:#fff !important;
+  outline:3px solid #f59e0b; outline-offset:2px;
+}
