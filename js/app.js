@@ -1,5 +1,5 @@
 /* app.js (compartido) */
-import Fuse from "fuse.js";
+
 
 (function(){
   const qs = s => document.querySelector(s);
@@ -40,76 +40,124 @@ import Fuse from "fuse.js";
 
 
 /* ====== BUSCADOR ====== */
-(function(){
-  const coverage = {
-    artigas: ["Artigas"],
-    canelones: [
-      "Canelones", "Costa de Oro", "Montes", "Progreso", "Sauce", "Los Cerrillos",
-      "San Bautista", "San Antonio", "San Ramón", "Las Piedras", "Santa Lucía", "Santa Rosa"
-    ],
-    cerro_largo: ["Melo", "Río Branco", "Tupambaé"],
-    colonia: ["Colonia", "Carmelo", "Rosario", "Tarariras", "Nueva Palmira"],
-    durazno: ["Durazno", "Sarandí del Yí"],
-    flores: ["Trinidad"],
-    florida: ["Florida", "Sarandí Grande", "Fray Marcos", "Casupá", "Cerro Colorado"],
-    lavalleja: ["Minas", "José Pedro Varela", "Mariscala", "Solís de Mataojo", "José Batlle y Ordóñez"],
-    maldonado: ["Maldonado", "Aiguá"],
-    montevideo: [],
-    paysandu: ["Paysandú"],
-    rio_negro: [],
-    rivera: [],
-    rocha: [
-      "Rocha", "Punta del Diablo", "Castillos", "Chuy", "Barra de Valizas", "Aguas Dulces",
-      "Cabo Polonio", "La Coronilla"
-    ],
-    salto: ["Salto"],
-    san_jose: ["San José", "Libertad", "Villa Rodríguez"],
-    soriano: ["Cardona", "José E. Rodó"],
-    tacuarembo: [],
-    treinta_y_tres: ["Treinta y Tres", "Santa Clara del Olimar", "La Charqueada", "Cerro Chato"]
-  };
+(function () {
+  const searchDestinations = [
+    "Artigas - ¡Sí llegamos!",
+    "Canelones - ¡Sí llegamos!",
+    "Costa de Oro - ¡Sí llegamos!",
+    "Montes - ¡Sí llegamos!",
+    "Progreso - ¡Sí llegamos!",
+    "Sauce - ¡Sí llegamos!",
+    "Los Cerrillos - ¡Sí llegamos!",
+    "San Bautista - ¡Sí llegamos!",
+    "San Antonio - ¡Sí llegamos!",
+    "San Ramón - ¡Sí llegamos!",
+    "Las Piedras - ¡Sí llegamos!",
+    "Santa Lucía - ¡Sí llegamos!",
+    "Santa Rosa - ¡Sí llegamos!",
+    "Melo - ¡Sí llegamos!",
+    "Rio Branco - ¡Sí llegamos!",
+    "Tupambae - ¡Sí llegamos!",
+    "Colonia - ¡Sí llegamos!",
+    "Carmelo - ¡Sí llegamos!",
+    "Rosario - ¡Sí llegamos!",
+    "Tarariras - ¡Sí llegamos!",
+    "Nueva Palmira - ¡Sí llegamos!",
+    "Durazno - ¡Sí llegamos!",
+    "Sarandi del Yi - ¡Sí llegamos!",
+    "Trinidad - ¡Sí llegamos!",
+    "Florida - ¡Sí llegamos!",
+    "Sarandi Grande - ¡Sí llegamos!",
+    "Fray Marcos - ¡Sí llegamos!",
+    "Casupa - ¡Sí llegamos!",
+    "Cerro Colorado - ¡Sí llegamos!",
+    "Minas - ¡Sí llegamos!",
+    "Jose Pedro Varela - ¡Sí llegamos!",
+    "Mariscala - ¡Sí llegamos!",
+    "Solis de Mataojo - ¡Sí llegamos!",
+    "Jose Batlle y Ordoñez - ¡Sí llegamos!",
+    "Maldonado - ¡Sí llegamos!",
+    "Aigua - ¡Sí llegamos!",
+    "Paysandu - ¡Sí llegamos!",
+    "Rocha - ¡Sí llegamos!",
+    "Punta del Diablo - ¡Sí llegamos!",
+    "Castillos - ¡Sí llegamos!",
+    "Chuy - ¡Sí llegamos!",
+    "Barra de Valizas - ¡Sí llegamos!",
+    "Aguas Dulces - ¡Sí llegamos!",
+    "Cabo Polonio - ¡Sí llegamos!",
+    "La Coronilla - ¡Sí llegamos!",
+    "Salto - ¡Sí llegamos!",
+    "San Jose - ¡Sí llegamos!",
+    "Libertad - ¡Sí llegamos!",
+    "Villa Rodriguez - ¡Sí llegamos!",
+    "Cardona - ¡Sí llegamos!",
+    "Jose E. Rodo - ¡Sí llegamos!",
+    "Treinta y Tres - ¡Sí llegamos!",
+    "Santa Clara del Olimar - ¡Sí llegamos!",
+    "La Charqueada - ¡Sí llegamos!",
+    "Cerro Chato - ¡Sí llegamos!",
+  ];
 
-  // Generar una lista plana de destinos a partir de `coverage`
-  const destinos = Object.values(coverage).flat();
-
-  // Configurar Fuse.js
-  const options = {
-    includeScore: true,
-    threshold: 0.4, // Ajusta la sensibilidad (0.0 = coincidencia exacta, 1.0 = coincidencia amplia)
-    keys: [] // No necesitamos claves porque es una lista plana
-  };
-  const fuse = new Fuse(destinos, options);
+  // Crear una lista duplicada con y sin tildes
+  const normalize = (str) =>
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const normalizedDestinations = searchDestinations.map((d) => ({
+    original: d,
+    normalized: normalize(d),
+  }));
 
   const qi = document.getElementById("searchInput");
   const ul = document.getElementById("searchResults");
   if (!qi || !ul) return;
 
-  qi.addEventListener("input", function(){
-    const q = this.value.toLowerCase();
+  qi.addEventListener("input", function () {
+    const q = normalize(this.value.trim().toLowerCase());
     ul.innerHTML = "";
     if (q.length > 1) {
-      const results = fuse.search(q);
-      results.forEach(({ item }) => {
+      const filtered = normalizedDestinations.filter((d) =>
+        d.normalized.toLowerCase().includes(q)
+      );
+      filtered.forEach(({ original }) => {
         const li = document.createElement("li");
-        li.textContent = item;
+        li.textContent = original;
         ul.appendChild(li);
       });
     }
   });
 })();
 
-/* ====== ACCORDION ====== */
-(function(){
-  const accBtns = document.querySelectorAll(".accordion-btn");
-  accBtns.forEach(btn => {
-    btn.addEventListener("click", function() {
-      this.classList.toggle("active");
-      const panel = this.nextElementSibling;
-      if (panel.style.maxHeight) { panel.style.maxHeight = null; }
-      else { panel.style.maxHeight = panel.scrollHeight + "px"; }
+/* ====== MAPA Y ACORDEÓN ====== */
+document.addEventListener("DOMContentLoaded", () => {
+  // Mapa
+  const paths = document.querySelectorAll("#mapaUruguay path");
+  paths.forEach((path) => {
+    path.addEventListener("mouseenter", () => {
+      path.classList.add("hover");
+    });
+    path.addEventListener("mouseleave", () => {
+      path.classList.remove("hover");
+    });
+    path.addEventListener("click", () => {
+      alert(`Departamento seleccionado: ${path.id}`);
     });
   });
-})();
+
+  // Acordeón
+  const accBtns = document.querySelectorAll(".accordion-btn");
+  accBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("active");
+      const panel = btn.nextElementSibling;
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    });
+  });
+});
+
 
 // === Cobertura: colores y labels (simple y directo sobre el SVG de MapSVG) ===
 // Configuración de colores

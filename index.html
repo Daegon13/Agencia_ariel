@@ -139,18 +139,25 @@
     <section id="page-cobertura" class="cobertura-layout">
       <div class="container">
         <h2>Mapa de cobertura</h2>
+        <!-- Contenedor del buscador -->
+        <div class="buscador-wrap">
+          <p>Para buscar destinos válidos busca aquí:</p>
+          <input type="text" id="searchInput" placeholder="Buscar destino...">
+          <ul id="searchResults"></ul>
+        </div>
         <section class="map-wrap">
-      <!-- El SVG real se carga por JS desde img/Uruguay.svg -->
-      <div id="uy-map-container">
-        <div id="uy-map" aria-label="Mapa de Uruguay"></div>
-        <div id="tooltip" role="dialog" aria-hidden="true"></div>
+          <!-- El SVG real se carga por JS desde img/Uruguay.svg -->
+          <div id="uy-map-container">
+            <div id="uy-map" aria-label="Mapa de Uruguay"></div>
+            <div id="tooltip" role="dialog" aria-hidden="true"></div>
+          </div>
+        </section>
+        <!-- Acordeón EXISTENTE (no se toca su lógica ni estructura) -->
+        <aside class="accordion" aria-label="Destinos con cobertura">
+          <h2>Destinos con cobertura</h2>
+          <div id="accordion-root"></div>
+        </aside>
       </div>
-    </section>
-    <!-- Acordeón EXISTENTE (no se toca su lógica ni estructura) -->
-    <aside class="accordion" aria-label="Destinos con cobertura">
-      <h2>Destinos con cobertura</h2>
-      <div id="accordion-root"></div>
-    </aside>
     </section>
 
     <!-- Sección NOSOTROS -->
