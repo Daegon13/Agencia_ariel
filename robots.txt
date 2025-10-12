@@ -1,3 +1,8 @@
 User-agent: *
-Allow: /
-Sitemap: https://www.tu-dominio.com/sitemap.xml
+# Bloquea carpetas internas si existieran:
+Disallow: /admin/
+Disallow: /assets/private/
+# (Opcional) Bloquear páginas de resultados de búsqueda si las hubiera:
+Disallow: /buscar/
+# Sitemap principal
+Sitemap: https://agencia-ariel.com/sitemap.xml
