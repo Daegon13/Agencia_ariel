@@ -97,6 +97,10 @@
     "Santa Clara del Olimar - ¡Sí llegamos!",
     "La Charqueada - ¡Sí llegamos!",
     "Cerro Chato - ¡Sí llegamos!",
+    "Quebracho - ¡Sí llegamos!",
+    "Guichón - ¡Sí llegamos!",
+    "Young - ¡Sí llegamos!",
+    "Palmitas - ¡Sí llegamos!",
   ];
 
   // Crear una lista duplicada con y sin tildes
@@ -216,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
         path.setAttribute("fill", path.dataset._fill || (tieneCobertura ? COLOR_COVER : COLOR_NO_COVER));
       });
 
-      // Click → tu modal existente (si ya lo tenés en app.js)
+      // Click → tu modal existente (si ya tenés en app.js)
       path.addEventListener("click", () => {
         // Si ya tenés abrirModalDepto(nombre, destinos), usá:
         if (typeof abrirModalDepto === "function") {
@@ -280,13 +284,13 @@ document.addEventListener("DOMContentLoaded", () => {
     lavalleja: ["Minas","José Pedro Varela","Mariscala","Solís de Mataojo","José Batlle y Ordóñez"],
     maldonado: ["Maldonado","Aiguá"],
     montevideo: [],
-    paysandu: ["Paysandú"],
-    rio_negro: [],
+    paysandu: ["Paysandú", "Quebracho", "Guichón"],
+    rio_negro: ["Young"],
     rivera: [],
     rocha: ["Rocha","Punta del Diablo","Castillos","Chuy","Barra de Valizas","Aguas Dulces","Cabo Polonio","La Coronilla"],
     salto: ["Salto"],
     san_jose: ["San José","Libertad","Villa Rodríguez"],
-    soriano: ["Cardona","José E. Rodó"],
+    soriano: ["Cardona","José E. Rodó","Palmitas"],
     tacuarembo: [],
     treinta_y_tres: ["Treinta y Tres","Santa Clara del Olimar","La Charqueada","Cerro Chato"],
   };
@@ -410,9 +414,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     "UY-MO": [ /* sin destinos provistos → sin cobertura */ ],
 
-    "UY-PA": [ "Paysandú" ],
+    "UY-PA": [ "Paysandú", "Quebracho", "Guichón" ],
 
-    "UY-RN": [ /* sin destinos provistos → sin cobertura */ ],
+    "UY-RN": [ "Young" ],
 
     "UY-RO": [
       "Rocha","Punta del Diablo","Castillos","Chuy","Barra de Valizas","Aguas Dulces",
@@ -425,7 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     "UY-SJ": [ "San José","Libertad","Villa Rodríguez" ],
 
-    "UY-SO": [ "Cardona","José E. Rodó" ],
+    "UY-SO": [ "Cardona","José E. Rodó","Palmitas" ],
 
     "UY-TA": [ /* sin destinos provistos → sin cobertura */ ],
 
