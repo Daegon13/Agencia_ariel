@@ -1,12 +1,12 @@
 /* Variables globales */
 :root {
-  --bg: #0b1020;
-  --panel: #0f172a;
-  --ink: #e5e7eb;
-  --muted: #9aa4b2;
-  --brand: #2563eb;
-  --accent: #f59e0b;
-  --radius: 14px;
+  --bg: #2b2b2b; /* Fondo principal */
+  --panel: #3a3a3a; /* Paneles */
+  --ink: #ffffff; /* Texto principal */
+  --muted: #b0b0b0; /* Texto secundario */
+  --brand: #e63946; /* Color de marca */
+  --accent: #6c757d; /* Color de acento */
+  --radius: 14px; /* Sin cambios */
 }
 
 /* Reset y configuración básica */
@@ -141,7 +141,7 @@ a:hover {
 /* Hero */
 .hero {
   padding: 72px 0;
-  background: radial-gradient(1200px 400px at 20% 0%, rgba(37, 99, 235, 0.25), transparent);
+  background: var(--bg); /* Usar el fondo principal */
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 .hero-inner {
@@ -288,7 +288,7 @@ a:hover {
   z-index: 30;
   display: flex;
   gap: 8px;
-  background: rgba(11, 16, 32, 0.85);
+  background: rgba(0, 0, 0, 0.61);
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   padding: 10px 12px;
