@@ -1,6 +1,6 @@
 /* Variables globales */
 :root {
-  --bg: #2b2b2b; /* Fondo principal */
+  --bg: #d3d3d3; /* Cambiado a gris claro */
   --panel: #3a3a3a; /* Paneles */
   --ink: #ffffff; /* Texto principal */
   --muted: #b0b0b0; /* Texto secundario */
@@ -125,9 +125,9 @@ a:hover {
   border: 1px solid transparent;
 }
 .btn-primary {
-  background: linear-gradient(135deg, var(--brand), #60a5fa);
+  background: var(--brand); /* Cambiado a solo rojo */
   color: white;
-  border-color: #1d4ed8;
+  border-color: #58595a;
 }
 .btn-light {
   background: white;
@@ -514,7 +514,7 @@ Autor: Agencia Ariel
   --ok: #21a67a;
   --no: #d9534f;
   --bg: #0c1116;
-  --card: #0f1720;
+  --card: #ffffff;
   --ink: #eaf2f1;
   --muted: #8aa0b3;
 }
