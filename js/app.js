@@ -1,4 +1,6 @@
 /* app.js (compartido) */
+import Fuse from "fuse.js";
+
 (function(){
   const qs = s => document.querySelector(s);
   const qsa = s => Array.from(document.querySelectorAll(s));
@@ -70,6 +72,14 @@
   // Generar una lista plana de destinos a partir de `coverage`
   const destinos = Object.values(coverage).flat();
 
+  // Configurar Fuse.js
+  const options = {
+    includeScore: true,
+    threshold: 0.4, // Ajusta la sensibilidad (0.0 = coincidencia exacta, 1.0 = coincidencia amplia)
+    keys: [] // No necesitamos claves porque es una lista plana
+  };
+  const fuse = new Fuse(destinos, options);
+
   const qi = document.getElementById("searchInput");
   const ul = document.getElementById("searchResults");
   if (!qi || !ul) return;
@@ -78,10 +88,10 @@
     const q = this.value.toLowerCase();
     ul.innerHTML = "";
     if (q.length > 1) {
-      const filtered = destinos.filter(d => d.toLowerCase().includes(q));
-      filtered.forEach(d => {
+      const results = fuse.search(q);
+      results.forEach(({ item }) => {
         const li = document.createElement("li");
-        li.textContent = d;
+        li.textContent = item;
         ul.appendChild(li);
       });
     }
