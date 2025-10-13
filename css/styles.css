@@ -869,7 +869,7 @@ Autor: Agencia Ariel
 #page-cobertura .accordion summary:focus-visible,
 #page-cobertura .accordion .accordion-btn:focus-visible{
   background:#0f172a;              /* inversión: fondo oscuro */
-  color:#ffffff;                   /* texto blanco */
+  color:#575757;                   /* texto blanco */
   outline:3px solid #facc15;       /* halo amarillo de alto contraste */
   outline-offset:2px;
 }
